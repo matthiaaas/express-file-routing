@@ -9,7 +9,7 @@ interface IFileResult {
   path: string
 }
 
-const walk = (directory: string, relative: string[] = []) => {
+export const walk = (directory: string, relative: string[] = []) => {
   const results: IFileResult[] = []
 
   const files = fs.readdirSync(directory)
@@ -39,7 +39,7 @@ interface IRoute {
   cb: any
 }
 
-const generateRoutes = (files: IFileResult[]) => {
+export const generateRoutes = (files: IFileResult[]) => {
   const routes: IRoute[] = []
 
   for (const file of files) {
@@ -48,6 +48,7 @@ const generateRoutes = (files: IFileResult[]) => {
 
     let url = removeExtension(file.relative)
     if (path.parse(file.name).name === "index") {
+      url = url.replace(new RegExp("index$"), "")
     }
 
     routes.push({
