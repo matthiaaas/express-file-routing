@@ -24,7 +24,7 @@ app.use(router())
 app.listen(2000)
 ```
 
-#### Direcoty Structure
+#### Directory Structure
 
 ```ts
 ├── app.ts
