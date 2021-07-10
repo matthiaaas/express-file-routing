@@ -69,16 +69,22 @@ app.use(
 
 ### HTTP Method Matching
 
+If you export functions named one of `get`, `post`, `put`, `delete` those will get matched their corresponding http method.
+
 ```ts
 export const get = async (res, res) => { ... }
 
 export const post = async (req, res) => { ... }
 
-// you can still use default wildcard export too
+// you can still use a wildcard default export in addition
 export default async (res, res) => { ... }
 ```
 
+_Note_: Named method exports gain priority over wildcard exports (= default exports).
+
 ### Middlewares (with HOFs)
+
+You can add isolated, route specific middlewares by exporting an array of Express request handlers from your route file.
 
 ```ts
 import { rateLimit, bearerToken, userAuth } from "../middlewares" // import middleware functions
