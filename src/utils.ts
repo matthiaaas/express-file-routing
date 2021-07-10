@@ -72,7 +72,7 @@ const removeExtension = (fileName: string) =>
 
 export const getHandlers = handler => {
   if (typeof handler === "object") {
-    return [...handler.middlewares, handler]
+    return [...handler.middlewares, handler.handler]
   } else {
     return [handler]
   }
