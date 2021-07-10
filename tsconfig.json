@@ -1,27 +1,15 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "esnext",
-    "target": "es5",
-    "lib": [
-      "es6",
-      "dom",
-      "es2016",
-      "es2017"
-    ],
-    "sourceMap": true,
-    "allowJs": false,
-    "jsx": "react",
-    "declaration": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "ES2021",
     "moduleResolution": "node",
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "sourceMap": true,
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
   },
   "include": [
     "src"
@@ -31,5 +19,8 @@
     "dist",
     "example",
     "rollup.config.js"
+  ],
+  "lib": [
+    "es2015"
   ]
 }
