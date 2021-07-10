@@ -33,16 +33,23 @@ export default async (req, res) => {
 
 #### Directory Structure
 
+Files inside your project's `/routes` directory will automatically get matched an url path.
+
 ```php
 ├── app.ts
 ├── routes
-    ├── index.ts
+    ├── index.ts // index routes
     ├── posts
         ├── index.ts
         └── :id.ts // dynamic params
     └── users.ts
 └── package.json
 ```
+
+- `/routes/index.ts` → /
+- `/routes/posts/index.ts` → /posts
+- `/routes/posts/:id.ts` → /posts/:id
+- `/routes/users.ts` → /users
 
 ## API
 
