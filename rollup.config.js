@@ -13,6 +13,6 @@ export default {
       strict: false
     }
   ],
-  plugins: [typescript()],
+  plugins: [typescript({ objectHashIgnoreUnknownHack: true })],
   external: ["express"]
 }
