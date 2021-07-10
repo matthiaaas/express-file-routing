@@ -1,5 +1,5 @@
 import path from "path"
-import { RequestHandler, Router } from "express"
+import { Router } from "express"
 
 import { walk, generateRoutes, getHandlers } from "./utils"
 
@@ -47,5 +47,5 @@ export default (opts: IOptions = defaultOptions): Router => {
 }
 
 const defaultOptions: IOptions = {
-  directory: path.join(__dirname, "routes")
+  directory: path.join(path.dirname(require.main.filename), "routes")
 }
