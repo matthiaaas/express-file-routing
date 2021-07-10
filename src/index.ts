@@ -1,7 +1,7 @@
 import path from "path"
-import { Router } from "express"
+import { RequestHandler, Router } from "express"
 
-import { walk, generateRoutes } from "./utils"
+import { walk, generateRoutes, getHandlers } from "./utils"
 
 interface IOptions {
   directory?: string
@@ -19,18 +19,19 @@ export default (opts: IOptions = defaultOptions): Router => {
   for (const { url, exported } of routes) {
     const exportedMethods = Object.entries(exported)
     for (const [method, handler] of exportedMethods) {
+      const handlers = getHandlers(handler)
       switch (method) {
         case "get":
-          router.get(url, handler)
+          router.get(url, ...handlers)
           break
         case "post":
-          router.post(url, handler)
+          router.post(url, ...handlers)
           break
         case "put":
-          router.put(url, handler)
+          router.put(url, ...handlers)
           break
         case "delete":
-          router.delete(url, handler)
+          router.delete(url, ...handlers)
           break
         default:
           break
@@ -38,7 +39,7 @@ export default (opts: IOptions = defaultOptions): Router => {
     }
     // wildcard default export route matching
     if (typeof exported.default !== "undefined") {
-      router.use(url, exported.default)
+      router.use(url, ...getHandlers(exported.default))
     }
   }
 
@@ -47,4 +48,16 @@ export default (opts: IOptions = defaultOptions): Router => {
 
 const defaultOptions: IOptions = {
   directory: path.join(__dirname, "routes")
+}
+
+export const withMiddleware = (
+  middlewares: RequestHandler | RequestHandler[],
+  handler: RequestHandler
+) => {
+  if (!Array.isArray(middlewares)) middlewares = [middlewares]
+
+  return {
+    middlewares,
+    handler
+  }
 }

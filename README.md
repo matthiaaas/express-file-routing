@@ -1,6 +1,6 @@
 # express-file-routing
 
-`0` dependencies
+Flexible system-based file routing for Express with `0` dependencies.
 
 ## Installation
 
@@ -78,10 +78,11 @@ import { withMiddleware } from "express-file-routing"
 
 import { rateLimit, bearerToken, userAuth } from "../middlewares" // import middleware functions
 
-export const get = withMiddleware(
-  rateLimit,
-  bearerToken,
-  userAuth,
+export const get = withMiddleware([
+    rateLimit,
+    bearerToken,
+    userAuth
+  ]
   async (req, res) => { ... }
 )
 ```

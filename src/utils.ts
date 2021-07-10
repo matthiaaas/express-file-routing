@@ -69,3 +69,11 @@ export const generateRoutes = (files: IFileResult[]) => {
 
 const removeExtension = (fileName: string) =>
   fileName.replace(new RegExp(path.extname(fileName) + "$"), "")
+
+export const getHandlers = handler => {
+  if (typeof handler === "object") {
+    return [...handler.middlewares, handler]
+  } else {
+    return [handler]
+  }
+}
