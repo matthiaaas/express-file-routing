@@ -33,7 +33,7 @@ export default async (req, res) => {
 
 #### Directory Structure
 
-```ts
+```php
 ├── app.ts
 ├── routes
     ├── index.ts
@@ -71,7 +71,7 @@ export const post = async (req, res) => { ... }
 export default async (res, res) => { ... }
 ```
 
-### Middlewares (with HOCs)
+### Middlewares (with HOFs)
 
 ```ts
 import { withMiddleware } from "express-file-routing"
