@@ -8,9 +8,11 @@ Flexible system-based file routing for Express with `0` dependencies.
 npm install express-file-routing
 ```
 
-_Note_: If you prefer `yarn` instead of `npm`, just use `yarn add express-file-routing`.
+_Note:_ If you prefer `yarn` instead of `npm`, just use `yarn add express-file-routing`.
 
 ## How to use
+
+- app.ts (main)
 
 ```ts
 import express from "express"
@@ -23,6 +25,8 @@ app.use(router()) // uses /routes directory by default
 app.listen(2000)
 ```
 
+- routes/index.ts
+
 ```ts
 export default async (req, res) => {
   if (req.method !== "GET") return res.status(404)
@@ -33,7 +37,7 @@ export default async (req, res) => {
 
 #### Directory Structure
 
-Files inside your project's `/routes` directory will automatically get matched an url path.
+Files inside your project's `/routes` directory will get matched an url path automatically.
 
 ```php
 ├── app.ts
@@ -63,7 +67,7 @@ app.use(
 
 ### Options
 
-- `directory`: The path to the routes directory
+- `directory`: The path to the routes directory (default /routes)
 
 ## Examples
 
@@ -80,14 +84,14 @@ export const post = async (req, res) => { ... }
 export default async (res, res) => { ... }
 ```
 
-_Note_: Named method exports gain priority over wildcard exports (= default exports).
+_Note:_ Named method exports gain priority over wildcard exports (= default exports).
 
-### Middlewares (with HOFs)
+### Middlewares
 
 You can add isolated, route specific middlewares by exporting an array of Express request handlers from your route file.
 
 ```ts
-import { rateLimit, bearerToken, userAuth } from "../middlewares" // import middleware functions
+import { rateLimit, bearerToken, userAuth } from "../middlewares"
 
 export const get = [
   rateLimit(), bearerToken(), userAuth(),
