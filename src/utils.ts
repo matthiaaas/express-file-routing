@@ -71,9 +71,7 @@ const removeExtension = (fileName: string) =>
   fileName.replace(new RegExp(path.extname(fileName) + "$"), "")
 
 export const getHandlers = handler => {
-  if (typeof handler === "object") {
-    return [...handler.middlewares, handler.handler]
-  } else {
-    return [handler]
-  }
+  if (!Array.isArray(handler)) return [handler]
+
+  return handler
 }

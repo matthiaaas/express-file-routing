@@ -74,15 +74,10 @@ export default async (res, res) => { ... }
 ### Middlewares (with HOFs)
 
 ```ts
-import { withMiddleware } from "express-file-routing"
-
 import { rateLimit, bearerToken, userAuth } from "../middlewares" // import middleware functions
 
-export const get = withMiddleware([
-    rateLimit,
-    bearerToken,
-    userAuth
-  ]
+export const get = [
+  rateLimit(), bearerToken(), userAuth(),
   async (req, res) => { ... }
-)
+]
 ```

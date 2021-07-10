@@ -49,15 +49,3 @@ export default (opts: IOptions = defaultOptions): Router => {
 const defaultOptions: IOptions = {
   directory: path.join(__dirname, "routes")
 }
-
-export const withMiddleware = (
-  middlewares: RequestHandler | RequestHandler[],
-  handler: RequestHandler
-) => {
-  if (!Array.isArray(middlewares)) middlewares = [middlewares]
-
-  return {
-    middlewares,
-    handler
-  }
-}
