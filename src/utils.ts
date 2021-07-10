@@ -1,7 +1,7 @@
 import fs from "fs"
 import path from "path"
 
-const VALID_FILE_EXTENSIONS = [".ts", ".js"]
+import config from "./config"
 
 interface IFileResult {
   name: string
@@ -36,7 +36,14 @@ export const walk = (directory: string, relative: string[] = []) => {
 
 interface IRoute {
   url: string
-  cb: any
+  exported: {
+    default?: any
+    get?: any
+    post?: any
+    put?: any
+    delete?: any
+    [x: string]: any
+  }
 }
 
 export const generateRoutes = (files: IFileResult[]) => {
@@ -44,7 +51,7 @@ export const generateRoutes = (files: IFileResult[]) => {
 
   for (const file of files) {
     const extension = path.extname(file.name)
-    if (!VALID_FILE_EXTENSIONS.includes(extension)) continue
+    if (!config.VALID_FILE_EXTENSIONS.includes(extension)) continue
 
     let url = removeExtension(file.relative)
     if (path.parse(file.name).name === "index") {
@@ -53,7 +60,7 @@ export const generateRoutes = (files: IFileResult[]) => {
 
     routes.push({
       url: url,
-      cb: require(path.join(file.path, file.name))
+      exported: require(path.join(file.path, file.name))
     })
   }
 

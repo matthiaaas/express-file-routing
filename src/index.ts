@@ -9,14 +9,37 @@ interface IOptions {
 }
 
 export default (opts: IOptions = defaultOptions): Router => {
+  const options = { ...defaultOptions, ...opts }
+
   const router = Router({ mergeParams: true })
 
-  const files = walk(opts.directory)
-
+  const files = walk(options.directory)
   const routes = generateRoutes(files)
 
-  for (const route of routes) {
-    router.use(route.url, route.cb.default)
+  for (const { url, exported } of routes) {
+    const exportedMethods = Object.entries(exported)
+    for (const [method, handler] of exportedMethods) {
+      switch (method) {
+        case "get":
+          router.get(url, handler)
+          break
+        case "post":
+          router.post(url, handler)
+          break
+        case "put":
+          router.put(url, handler)
+          break
+        case "delete":
+          router.delete(url, handler)
+          break
+        default:
+          break
+      }
+    }
+    // wildcard default export route matching
+    if (typeof exported.default !== "undefined") {
+      router.use(url, exported.default)
+    }
   }
 
   return router
