@@ -1,5 +1,4 @@
 import path from "path"
-import { Router } from "express"
 
 import config from "./config"
 
@@ -10,10 +9,8 @@ interface IOptions {
   methodExports?: string[]
 }
 
-export default (opts: IOptions = defaultOptions): Router => {
+export default <T>(app: T, opts: IOptions = defaultOptions): T => {
   const options = { ...defaultOptions, ...opts }
-
-  const router = Router({ mergeParams: true })
 
   const files = walk(options.directory)
   const routes = generateRoutes(files)
@@ -28,15 +25,16 @@ export default (opts: IOptions = defaultOptions): Router => {
         !config.METHOD_EXPORTS.includes(methodKey)
       )
         continue
-      router[methodKey](url, ...handlers)
+      app[methodKey](url, ...handlers)
     }
     // wildcard default export route matching
     if (typeof exported.default !== "undefined") {
-      router.use(url, ...getHandlers(exported.default))
+      // @ts-ignore
+      app.use(url, ...getHandlers(exported.default))
     }
   }
 
-  return router
+  return app
 }
 
 const defaultOptions: IOptions = {

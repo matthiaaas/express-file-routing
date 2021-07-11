@@ -16,11 +16,11 @@ _Note:_ If you prefer `yarn` instead of `npm`, just use `yarn add express-file-r
 
 ```ts
 import express from "express"
-import router from "express-file-routing"
+import createRouter from "express-file-routing"
 
 const app = express()
 
-app.use(router()) // uses /routes directory by default
+createRouter(app) // uses /routes directory by default
 
 app.listen(2000)
 ```
@@ -58,12 +58,10 @@ Files inside your project's `/routes` directory will get matched an url path aut
 ## API
 
 ```ts
-app.use(
-  router({
-    directory: path.join(__dirname, "routes"),
-    methodExports: ["ws", ...]
-  })
-)
+createRouter({
+  directory: path.join(__dirname, "routes"),
+  methodExports: ["ws", ...]
+})
 ```
 
 ### Options
@@ -111,11 +109,9 @@ import ws from "express-ws"
 
 const { app } = ws(express())
 
-app.use(
-  router({
-    methodExports: ["ws"]
-  })
-)
+createRouter({
+  methodExports: ["ws"]
+})
 
 // routes/index.ts
 export const ws = async (ws, req) => {
