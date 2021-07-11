@@ -58,7 +58,7 @@ Files inside your project's `/routes` directory will get matched an url path aut
 ## API
 
 ```ts
-createRouter({
+createRouter(app, {
   directory: path.join(__dirname, "routes"),
   methodExports: ["ws", ...]
 })
@@ -109,7 +109,7 @@ import ws from "express-ws"
 
 const { app } = ws(express())
 
-createRouter({
+createRouter(app, {
   methodExports: ["ws"]
 })
 
