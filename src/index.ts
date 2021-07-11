@@ -1,11 +1,13 @@
 import path from "path"
 import { Router } from "express"
 
+import config from "./config"
+
 import { walk, generateRoutes, getHandlers } from "./utils"
 
 interface IOptions {
   directory?: string
-  resolver?: (route: string, cb: any) => {} // @TODO custom route resolver
+  methodExports?: string[]
 }
 
 export default (opts: IOptions = defaultOptions): Router => {
@@ -19,23 +21,14 @@ export default (opts: IOptions = defaultOptions): Router => {
   for (const { url, exported } of routes) {
     const exportedMethods = Object.entries(exported)
     for (const [method, handler] of exportedMethods) {
+      const methodKey = method.toLowerCase()
       const handlers = getHandlers(handler)
-      switch (method) {
-        case "get":
-          router.get(url, ...handlers)
-          break
-        case "post":
-          router.post(url, ...handlers)
-          break
-        case "put":
-          router.put(url, ...handlers)
-          break
-        case "delete":
-          router.delete(url, ...handlers)
-          break
-        default:
-          break
-      }
+      if (
+        !opts.methodExports.includes(methodKey) &&
+        !config.METHOD_EXPORTS.includes(methodKey)
+      )
+        continue
+      router[methodKey](url, ...handlers)
     }
     // wildcard default export route matching
     if (typeof exported.default !== "undefined") {
@@ -47,5 +40,6 @@ export default (opts: IOptions = defaultOptions): Router => {
 }
 
 const defaultOptions: IOptions = {
-  directory: path.join(path.dirname(require.main.filename), "routes")
+  directory: path.join(path.dirname(require.main.filename), "routes"),
+  methodExports: []
 }

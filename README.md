@@ -60,7 +60,8 @@ Files inside your project's `/routes` directory will get matched an url path aut
 ```ts
 app.use(
   router({
-    directory: path.join(__dirname, "routes")
+    directory: path.join(__dirname, "routes"),
+    methodExports: ["ws", ...]
   })
 )
 ```
@@ -68,6 +69,7 @@ app.use(
 ### Options
 
 - `directory`: The path to the routes directory (default /routes)
+- `methodExports`: Additional method exports (e.g. `ws` for express-ws)
 
 ## Examples
 
@@ -97,4 +99,26 @@ export const get = [
   rateLimit(), bearerToken(), userAuth(),
   async (req, res) => { ... }
 ]
+```
+
+### Custom Methods Exports
+
+You can add support for other method exports to your route files.
+
+```ts
+// app.ts
+import ws from "express-ws"
+
+const { app } = ws(express())
+
+app.use(
+  router({
+    methodExports: ["ws"]
+  })
+)
+
+// routes/index.ts
+export const ws = async (ws, req) => {
+  ws.send("msg")
+}
 ```
