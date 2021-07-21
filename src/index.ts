@@ -9,6 +9,10 @@ interface IOptions {
   methodExports?: string[]
 }
 
+/**
+ * @param app - An express app instance
+ * @param opts - An options object
+ */
 export default <T>(app: T, opts: IOptions = defaultOptions): T => {
   const options = { ...defaultOptions, ...opts }
 
