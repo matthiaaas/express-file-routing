@@ -2,12 +2,7 @@ import fs from "fs"
 import path from "path"
 
 import config from "./config"
-
-interface IFileResult {
-  name: string
-  relative: string
-  path: string
-}
+import type { IFileResult, IRoute } from "./types"
 
 export const walk = (directory: string, relative: string[] = []) => {
   const results: IFileResult[] = []
@@ -32,18 +27,6 @@ export const walk = (directory: string, relative: string[] = []) => {
   }
 
   return results
-}
-
-interface IRoute {
-  url: string
-  exported: {
-    default?: any
-    get?: any
-    post?: any
-    put?: any
-    delete?: any
-    [x: string]: any
-  }
 }
 
 export const generateRoutes = (files: IFileResult[]) => {
