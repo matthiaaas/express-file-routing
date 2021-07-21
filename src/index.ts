@@ -34,7 +34,7 @@ export default <T>(app: T, opts: IOptions = defaultOptions): T => {
     // wildcard default export route matching
     if (typeof exported.default !== "undefined") {
       // @ts-ignore
-      app.use(url, ...getHandlers(exported.default))
+      app.all(url, ...getHandlers(exported.default))
     }
   }
 
