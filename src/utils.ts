@@ -2,9 +2,10 @@ import fs from "fs"
 import path from "path"
 
 import config from "./config"
+
 import type { IFileResult, IRoute } from "./types"
 
-export const walk = (directory: string, relative: string[] = []) => {
+export const walk = (directory: string, relative: string[] = [""]) => {
   const results: IFileResult[] = []
 
   const files = fs.readdirSync(directory)
@@ -19,9 +20,7 @@ export const walk = (directory: string, relative: string[] = []) => {
       results.push({
         name: file,
         path: directory,
-        relative: `${relative.length > 0 ? "/" : ""}${relative.join(
-          "/"
-        )}/${file}`
+        relative: `${relative.join("/")}/${file}`
       })
     }
   }
@@ -33,25 +32,25 @@ export const generateRoutes = (files: IFileResult[]) => {
   const routes: IRoute[] = []
 
   for (const file of files) {
-    const extension = path.extname(file.name)
-    if (!config.VALID_FILE_EXTENSIONS.includes(extension)) continue
+    const parsed = path.parse(file.relative)
+    if (!config.VALID_FILE_EXTENSIONS.includes(parsed.ext.toLocaleLowerCase()))
+      continue
 
-    let url = removeExtension(file.relative)
-    if (path.parse(file.name).name === "index") {
-      url = url.replace(new RegExp("index$"), "")
-    }
+    const dir = parsed.dir === "/" ? "" : parsed.dir
+    const name = parsed.name.startsWith("index.")
+      ? parsed.name.replace("index", "")
+      : parsed.name === "index"
+      ? ""
+      : "/" + parsed.name
 
-    routes.push({
-      url: url,
-      exported: require(path.join(file.path, file.name))
-    })
+    const url = dir + name
+    const exported = require(path.join(file.path, file.name))
+
+    routes.push({ url, exported })
   }
 
   return routes
 }
-
-const removeExtension = (fileName: string) =>
-  fileName.replace(new RegExp(path.extname(fileName) + "$"), "")
 
 export const getHandlers = handler => {
   if (!Array.isArray(handler)) return [handler]
