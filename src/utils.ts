@@ -40,7 +40,7 @@ export const generateRoutes = (files: IFileResult[]) => {
     const name = parsed.name.startsWith("index.")
       ? parsed.name.replace("index", "")
       : parsed.name === "index"
-      ? ""
+      ? "/"
       : "/" + parsed.name
 
     const url = dir + name

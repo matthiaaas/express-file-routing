@@ -25,11 +25,13 @@ export default <T>(app: T, opts: IOptions = defaultOptions): T => {
     for (const [method, handler] of exportedMethods) {
       const methodKey = method.toLowerCase()
       const handlers = getHandlers(handler)
+
       if (
         !opts.methodExports.includes(methodKey) &&
         !config.METHOD_EXPORTS.includes(methodKey)
       )
         continue
+
       app[methodKey](url, ...handlers)
     }
     // wildcard default export route matching
