@@ -73,7 +73,7 @@ createRouter(app, {
 
 ### HTTP Method Matching
 
-If you export functions named one of `get`, `post`, `put`, `delete` those will get matched their corresponding http method.
+If you export functions named e.g. `get`, `post`, `put`, `delete` (...) those will get matched their corresponding http method automatically.
 
 ```ts
 export const get = async (res, res) => { ... }
