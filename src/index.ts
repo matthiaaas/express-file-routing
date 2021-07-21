@@ -1,4 +1,5 @@
 import path from "path"
+import type { Express } from "express"
 
 import config from "./config"
 
@@ -33,8 +34,7 @@ export default <T>(app: T, opts: IOptions = defaultOptions): T => {
     }
     // wildcard default export route matching
     if (typeof exported.default !== "undefined") {
-      // @ts-ignore
-      app.all(url, ...getHandlers(exported.default))
+      ;(app as unknown as Express).all(url, ...getHandlers(exported.default))
     }
   }
 
