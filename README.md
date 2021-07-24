@@ -8,7 +8,7 @@ Flexible system-based file routing for Express with `0` dependencies.
 npm install express-file-routing
 ```
 
-_Note:_ If you prefer `yarn` instead of `npm`, just use `yarn add express-file-routing`.
+**Note:** If you prefer `yarn` instead of `npm`, just use `yarn add express-file-routing`.
 
 ## How to use
 
@@ -76,15 +76,19 @@ createRouter(app, {
 If you export functions named e.g. `get`, `post`, `put`, `delete` (...) those will get matched their corresponding http method automatically.
 
 ```ts
-export const get = async (res, res) => { ... }
+export const get = async (req, res) => { ... }
 
 export const post = async (req, res) => { ... }
 
 // you can still use a wildcard default export in addition
-export default async (res, res) => { ... }
+export default async (req, res) => { ... }
+
+// http delete method export es6 workaround
+const del = async (req, res) => { ... }
+export { del as delete }
 ```
 
-_Note:_ Named method exports gain priority over wildcard exports (= default exports).
+**Note:** Named method exports gain priority over wildcard exports (= default exports).
 
 ### Middlewares
 
