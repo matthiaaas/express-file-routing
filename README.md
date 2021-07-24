@@ -73,7 +73,7 @@ createRouter(app, {
 
 ### HTTP Method Matching
 
-If you export functions named e.g. `get`, `post`, `put`, `delete`/`del` ([...](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)) those will get matched their corresponding http method automatically.
+If you export functions named e.g. `get`, `post`, `put`, `delete`/`del` [etc.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) those will get matched their corresponding http method automatically.
 
 ```ts
 export const get = async (req, res) => { ... }
