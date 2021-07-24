@@ -73,19 +73,18 @@ createRouter(app, {
 
 ### HTTP Method Matching
 
-If you export functions named e.g. `get`, `post`, `put`, `delete` (...) those will get matched their corresponding http method automatically.
+If you export functions named e.g. `get`, `post`, `put`, `delete`/`del` ([...](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)) those will get matched their corresponding http method automatically.
 
 ```ts
 export const get = async (req, res) => { ... }
 
 export const post = async (req, res) => { ... }
 
+// it's not allowed to name variables 'delete': try 'del' instead
+export const del = async (req, res) => { ... }
+
 // you can still use a wildcard default export in addition
 export default async (req, res) => { ... }
-
-// http delete method export es6 workaround
-const del = async (req, res) => { ... }
-export { del as delete }
 ```
 
 **Note:** Named method exports gain priority over wildcard exports (= default exports).

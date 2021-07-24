@@ -57,3 +57,11 @@ export const getHandlers = handler => {
 
   return handler
 }
+
+export const getMethodKey = (method: string) => {
+  let methodKey = method.toLowerCase()
+
+  if (methodKey === "del") return "delete"
+
+  return methodKey
+}

@@ -3,7 +3,7 @@ import type { Express } from "express"
 
 import config from "./config"
 
-import { walk, generateRoutes, getHandlers } from "./utils"
+import { walk, generateRoutes, getHandlers, getMethodKey } from "./utils"
 
 interface IOptions {
   directory?: string
@@ -23,7 +23,7 @@ export default <T>(app: T, opts: IOptions = defaultOptions): T => {
   for (const { url, exported } of routes) {
     const exportedMethods = Object.entries(exported)
     for (const [method, handler] of exportedMethods) {
-      const methodKey = method.toLowerCase()
+      const methodKey = getMethodKey(method)
       const handlers = getHandlers(handler)
 
       if (
