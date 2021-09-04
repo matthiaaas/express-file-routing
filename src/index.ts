@@ -23,6 +23,7 @@ const createRouter = <T>(app: T, opts: IOptions = defaultOptions): T => {
 
   for (const { url, exported } of routes) {
     const exportedMethods = Object.entries(exported)
+
     for (const [method, handler] of exportedMethods) {
       const methodKey = getMethodKey(method)
       const handlers = getHandlers(handler)
@@ -47,10 +48,10 @@ const createRouter = <T>(app: T, opts: IOptions = defaultOptions): T => {
 export default createRouter
 
 /**
- * Router middleware
+ * Routing middleware
  *
  * ```ts
- * app.use(router())
+ * app.use("/", router())
  * ```
  *
  * @param opts - An options object
