@@ -16,14 +16,18 @@ npm install express-file-routing
 
 ```ts
 import express from "express"
-import createRouter from "express-file-routing"
+import createRouter, { router } from "express-file-routing"
 
 const app = express()
 
-createRouter(app) // uses /routes directory by default
+app.use("/", router()) // as router middleware or
+
+createRouter(app) // as wrapper function (recommended if possible)
 
 app.listen(2000)
 ```
+
+**Note:** It uses your project's `/routes` directory as source by default.
 
 - routes/index.ts
 
@@ -59,6 +63,11 @@ Files inside your project's `/routes` directory will get matched an url path aut
 
 ```ts
 createRouter(app, {
+  directory: path.join(__dirname, "routes"),
+  methodExports: ["ws", ...]
+})
+// or
+router({
   directory: path.join(__dirname, "routes"),
   methodExports: ["ws", ...]
 })
