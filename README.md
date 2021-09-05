@@ -20,9 +20,8 @@ import createRouter, { router } from "express-file-routing"
 
 const app = express()
 
-app.use("/", router()) // as router middleware or
-
-createRouter(app) // as wrapper function (recommended if possible)
+  app.use("/", router()) // as router middleware or
+  createRouter(app) // as wrapper function
 
 app.listen(2000)
 ```

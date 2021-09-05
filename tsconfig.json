@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
-    "module": "esnext",
+    "target": "esnext",
+    "module": "commonjs",
     "esModuleInterop": true,
-    "target": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "lib/esm",
     "resolveJsonModule": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
-    "allowJs": false,
+    "strict": false,
+    "allowJs": true,
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
@@ -24,9 +25,8 @@
   ],
   "exclude": [
     "node_modules",
-    "dist",
-    "example",
-    "rollup.config.js"
+    "lib",
+    "example"
   ],
   "lib": [
     "es2015"
