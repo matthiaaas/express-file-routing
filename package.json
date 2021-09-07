@@ -4,16 +4,13 @@
   "description": "Simple system-based file routing for Express",
   "author": "Matthias Halfmann",
   "repository": "matthiaaas/express-file-routing",
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/esm/index.js",
-  "types": "./lib/esm/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run build:esm && npm run build:cjs",
-    "demo:js": "NODE_ENV=development node ./demo/js/index",
-    "demo:ts": "ts-node-dev --respawn --watch ./demo/ts/app.ts --ignore-watch node_modules --no-notify ./demo/ts/app.ts",
-    "build:esm": "tsc",
-    "build:cjs": "tsc --module commonjs --outDir lib/cjs"
+    "build": "rollup -c",
+    "example:js": "NODE_ENV=development node ./demo/js/index",
+    "example:ts": "ts-node-dev --respawn --watch ./demo/ts/app.ts --ignore-watch node_modules --no-notify ./demo/ts/app.ts"
   },
   "keywords": [
     "express",
@@ -31,6 +28,10 @@
     "@types/express": "^4.17.13",
     "express": "^4.17.1",
     "ts-node-dev": "^1.1.8",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0",
+    "rollup": "^2.52.8",
+    "rollup-plugin-typescript2": "^0.29.0",
     "typescript": "^4.3.5"
   },
   "files": [
