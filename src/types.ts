@@ -1,23 +1,17 @@
-import { NextFunction, Request, Response } from "express"
+import type { Handler } from "express"
 
 import { verboseTypes } from "./options"
 
-export interface IFileResult {
+export interface IFile {
   name: string
-  relative: string
   path: string
+  rel: string
 }
-
-export type Handler<Params = any, Body = any, Qs = any> = (
-  req?: Request<Params, {}, Body, Qs>,
-  res?: Response,
-  next?: NextFunction
-) => void
 
 export interface IRoute {
   url: string
+  priority: number
   exported: {
-    priority?: number
     default?: Handler
     get?: Handler
     post?: Handler
