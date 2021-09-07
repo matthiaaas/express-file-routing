@@ -18,19 +18,13 @@ import { walk, generateRoutes, getHandlers, getMethodKey, log } from "./utils"
  * @param opts - An options object
  */
 const createRouter = <T>(app: T, opts: IOptions = defaultOptions): T => {
-  if (!opts.base) {
-    opts.base = ""
-  }
-
   /**
    * Bug: ENOENT: no such file or directory, scandir 'api'
    */
   if (opts.directory && defaultOptions.directory !== opts.directory) {
     opts.directory = path.join(REQUIRE_MAIN_FILE, opts.directory)
 
-    if (!opts.base) {
-      opts.base = opts.directory.replace(REQUIRE_MAIN_FILE, "")
-    }
+    if (!opts.base) opts.base = opts.directory.replace(REQUIRE_MAIN_FILE, "")
   }
   const options = { ...defaultOptions, ...opts }
 
