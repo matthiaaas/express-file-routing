@@ -20,8 +20,9 @@ import createRouter, { router } from "express-file-routing"
 
 const app = express()
 
-  app.use("/", router()) // as router middleware or
-  createRouter(app) // as wrapper function
+app.use("/", router()) // as router middleware or
+
+createRouter(app) // as wrapper function
 
 app.listen(2000)
 ```
@@ -48,7 +49,7 @@ Files inside your project's `/routes` directory will get matched an url path aut
     ├── index.ts // index routes
     ├── posts
         ├── index.ts
-        └── :id.ts // dynamic params
+        └── :id.ts or [id].ts // dynamic params
     └── users.ts
 └── package.json
 ```
