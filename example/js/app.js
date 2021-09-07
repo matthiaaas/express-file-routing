@@ -1,10 +1,11 @@
 const express = require("express")
-const { router } = require("../../dist")
+
+const { createRouter } = require("../../dist")
 
 const app = express()
 
 app.use(express.json())
 
-app.use("/api", router({ directory: "api" }))
+createRouter(app)
 
-app.listen(3000, () => console.log("server started"))
+app.listen(2000, () => console.log("server started"))

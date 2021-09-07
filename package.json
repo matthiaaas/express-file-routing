@@ -9,8 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
-    "example:js": "NODE_ENV=development node ./demo/js/index",
-    "example:ts": "ts-node-dev --respawn --watch ./demo/ts/app.ts --ignore-watch node_modules --no-notify ./demo/ts/app.ts"
+    "example:js": "NODE_ENV=development node ./example/js/app.js",
+    "example:ts": "ts-node-dev --respawn --watch ./example/ts/app.ts --ignore-watch node_modules --no-notify ./example/ts/app.ts"
   },
   "keywords": [
     "express",
