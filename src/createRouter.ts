@@ -1,10 +1,11 @@
-import { IOptions } from './types';
-import { defaultOptions, REQUIRE_MAIN_FILE } from './options';
 import { Router } from "express"
-import * as pt from 'path'
-import config from "./config"
+import path from "path"
 
-import { walk, generateRoutes, getHandlers, getMethodKey, VerboseLogger } from "./utils"
+import type { IOptions } from "./types"
+
+import config from "./config"
+import { defaultOptions, REQUIRE_MAIN_FILE } from "./options"
+import { walk, generateRoutes, getHandlers, getMethodKey, log } from "./utils"
 
 /**
  * Routing factory
@@ -17,33 +18,32 @@ import { walk, generateRoutes, getHandlers, getMethodKey, VerboseLogger } from "
  * @param opts - An options object
  */
 const createRouter = <T>(app: T, opts: IOptions = defaultOptions): T => {
-
   if (!opts.base) {
-    opts.base = ''
+    opts.base = ""
   }
 
   /**
-   * Bug: ENOENT: no such file or directory, scandir 'api' 
+   * Bug: ENOENT: no such file or directory, scandir 'api'
    */
   if (opts.directory && defaultOptions.directory !== opts.directory) {
-    opts.directory = pt.join(REQUIRE_MAIN_FILE, opts.directory)
-    
+    opts.directory = path.join(REQUIRE_MAIN_FILE, opts.directory)
+
     if (!opts.base) {
-      opts.base = opts.directory.replace(REQUIRE_MAIN_FILE, '')
+      opts.base = opts.directory.replace(REQUIRE_MAIN_FILE, "")
     }
   }
   const options = { ...defaultOptions, ...opts }
-    
+
   const files = walk(options.directory)
   const routes = generateRoutes(files)
-  
-  
+
   if (options.verbose) {
     console.log(
-        "\x1b[36m",
-        "\n[Function: createRouter]:",options.directory.replace(REQUIRE_MAIN_FILE, ''),
-        '\x1b[0m'
-    );
+      "\x1b[36m",
+      "\n[Function: createRouter]:",
+      options.directory.replace(REQUIRE_MAIN_FILE, ""),
+      "\x1b[0m"
+    )
   }
 
   for (const { url, exported } of routes) {
@@ -60,16 +60,16 @@ const createRouter = <T>(app: T, opts: IOptions = defaultOptions): T => {
         continue
 
       app[methodKey](url, ...handlers)
-      if (options.verbose) {
-        VerboseLogger(`[${methodKey}]`, options.base+url, exported.priority)
-      }
+
+      if (options.verbose)
+        log(`[${methodKey}]`, options.base + url, exported.priority)
     }
+
     // wildcard default export route matching
     if (typeof exported.default !== "undefined") {
       ;(app as unknown as Router).all(url, ...getHandlers(exported.default))
-      if (options.verbose) {
-        VerboseLogger(`[_all]`, options.base+url, exported.priority)
-      }
+
+      if (options.verbose) log(`[_all]`, options.base + url, exported.priority)
     }
   }
 
