@@ -5,12 +5,18 @@ import config from "./config"
 
 import type { IFileResult, IRoute } from "./types"
 
+export const log = (a: string, b: string, c: number) => {
+  console.log(`%s \r\t %s \r\t\t\t\t\t${c}`, a, b)
+}
+
+const regBackets = /\[([^}]*)\]/g
+export const setBrackets = (x: string) =>
+  regBackets.test(x) ? x.replace(regBackets, (_, s) => `:${s}`) : x
+
 export const walk = (directory: string, relative: string[] = [""]) => {
   const results: IFileResult[] = []
 
-  const files = fs.readdirSync(directory)
-
-  for (const file of files) {
+  for (const file of fs.readdirSync(directory)) {
     const filePath = path.join(directory, file)
     const stat = fs.statSync(filePath)
 
@@ -33,7 +39,11 @@ export const generateRoutes = (files: IFileResult[]) => {
 
   for (const file of files) {
     const parsed = path.parse(file.relative)
-    if (!config.VALID_FILE_EXTENSIONS.includes(parsed.ext.toLocaleLowerCase()))
+    if (
+      !config.VALID_FILE_EXTENSIONS.includes(parsed.ext.toLocaleLowerCase()) ||
+      parsed.name.startsWith("_") ||
+      parsed.dir.startsWith("/_")
+    )
       continue
 
     const dir = parsed.dir === "/" ? "" : parsed.dir
@@ -43,13 +53,16 @@ export const generateRoutes = (files: IFileResult[]) => {
       ? "/"
       : "/" + parsed.name
 
-    const url = dir + name
+    const url = setBrackets(dir) + setBrackets(name)
     const exported = require(path.join(file.path, file.name))
 
-    routes.push({ url, exported })
+    routes.push({
+      url,
+      exported: { ...exported, priority: exported.priority || 0 }
+    })
   }
 
-  return routes
+  return routes.sort((p, n) => n.exported.priority - p.exported.priority)
 }
 
 export const getHandlers = handler => {
