@@ -11,6 +11,7 @@ export const verboseTypes = {
 }
 
 export const defaultOptions: IOptions = {
+  base: "",
   directory: path.join(REQUIRE_MAIN_FILE, "routes"),
   methodExports: [],
   verbose: false
