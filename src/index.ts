@@ -1,6 +1,6 @@
 import { Router } from "express"
 
-import type { IOptions, Handler } from "./types"
+import type { IOptions } from "./types"
 
 import { defaultOptions } from "./options"
 import createRouter from "./createRouter"
@@ -22,5 +22,3 @@ export { createRouter }
 export const router = (opts: IOptions = defaultOptions) => {
   return createRouter(Router(), opts)
 }
-
-export type { Handler }
