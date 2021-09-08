@@ -5,9 +5,7 @@ import type { IOptions } from "./types"
 export const REQUIRE_MAIN_FILE = path.dirname(require.main.filename)
 
 export const verboseTypes = {
-  false: false,
-  dev: process.env.NODE_ENV !== "production",
-  true: true
+  dev: process.env.NODE_ENV !== "production"
 }
 
 export const defaultOptions: IOptions = {

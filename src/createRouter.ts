@@ -4,7 +4,7 @@ import path from "path"
 import type { IOptions } from "./types"
 
 import config from "./config"
-import { defaultOptions, REQUIRE_MAIN_FILE } from "./options"
+import { defaultOptions, REQUIRE_MAIN_FILE, verboseTypes } from "./options"
 import { walk, generateRoutes, getHandlers, getMethodKey, log } from "./utils"
 
 /**
@@ -26,6 +26,9 @@ const createRouter = <T>(app: T, opts: IOptions = defaultOptions): T => {
 
     if (!opts.base) opts.base = opts.directory.replace(REQUIRE_MAIN_FILE, "")
   }
+
+  if (opts.verbose === "dev") opts.verbose = verboseTypes["dev"]
+
   const options = { ...defaultOptions, ...opts }
 
   const files = walk(options.directory)
