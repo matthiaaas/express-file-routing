@@ -59,14 +59,14 @@ const createRouter = <T>(app: T, opts: IOptions = defaultOptions): T => {
       app[methodKey](url, ...handlers)
 
       if (options.verbose)
-        log(`[${methodKey}]`, options.base + url, exported.priority)
+        log(`[${methodKey}]`, options.base + url, exported.priority || 0)
     }
 
     // wildcard default export route matching
     if (typeof exported.default !== "undefined") {
       ;(app as unknown as Router).all(url, ...getHandlers(exported.default))
 
-      if (options.verbose) log(`[_all]`, options.base + url, exported.priority)
+      if (options.verbose) log(`[_all]`, options.base + url, exported.priority || 0)
     }
   }
 
