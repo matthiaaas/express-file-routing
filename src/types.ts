@@ -1,32 +1,26 @@
 import type { Handler } from "express"
 
-import { verboseTypes } from "./options"
+export interface Options {
+  directory?: string
+  additionalMethods?: string[]
+}
 
-export interface IFile {
+export interface File {
   name: string
   path: string
   rel: string
 }
 
-export interface IRoute {
+export interface Route {
   url: string
   priority: number
-  exported: {
+  exports: {
     default?: Handler
     get?: Handler
     post?: Handler
     put?: Handler
     patch?: Handler
     delete?: Handler
-    [x: string]: any
+    [x: string]: Handler
   }
-}
-
-type TVerboseType = keyof typeof verboseTypes
-
-export interface IOptions {
-  directory?: string
-  base?: string
-  methodExports?: string[]
-  verbose?: boolean | TVerboseType
 }
