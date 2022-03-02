@@ -1,5 +1,7 @@
 # express-file-routing
 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/matthiaaas/express-file-routing?color=brightgreen&label=latest)
+
 Flexible system-based file routing for Express with `0` dependencies.
 
 ## Installation
@@ -56,7 +58,7 @@ Files inside your project's `/routes` directory will get matched an url path aut
 
 - `/routes/index.ts` → /
 - `/routes/posts/index.ts` → /posts
-- `/routes/posts/:id.ts` → /posts/:id
+- `/routes/posts/[id].ts` → /posts/:id
 - `/routes/users.ts` → /users
 
 ## API
@@ -64,25 +66,25 @@ Files inside your project's `/routes` directory will get matched an url path aut
 ```ts
 createRouter(app, {
   directory: path.join(__dirname, "routes"),
-  methodExports: ["ws", ...]
+  additionalMethods: ["ws", ...]
 })
 // or
 router({
   directory: path.join(__dirname, "routes"),
-  methodExports: ["ws", ...]
+  additionalMethods: ["ws", ...]
 })
 ```
 
 ### Options
 
-- `directory`: The path to the routes directory (default /routes)
-- `methodExports`: Additional method exports (e.g. `ws` for express-ws)
+- `directory`: The path to the routes directory (defaults to `/routes`)
+- `additionalMethods`: Additional methods that match an export from a route like `ws` (e.g. `ws` for express-ws)
 
 ## Examples
 
 ### HTTP Method Matching
 
-If you export functions named e.g. `get`, `post`, `put`, `delete`/`del` [etc.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) those will get matched their corresponding http method automatically.
+If you export functions named e.g. `get`, `post`, `put`, `patch`, `delete`/`del` [etc.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) those will get matched their corresponding http method automatically.
 
 ```ts
 export const get = async (req, res) => { ... }
@@ -122,7 +124,7 @@ import ws from "express-ws"
 const { app } = ws(express())
 
 createRouter(app, {
-  methodExports: ["ws"]
+  additionalMethods: ["ws"]
 })
 
 // routes/index.ts

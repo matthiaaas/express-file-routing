@@ -1,9 +1,8 @@
 import { Router } from "express"
 
-import type { IOptions } from "./types"
+import type { Options } from "./types"
 
-import { defaultOptions } from "./options"
-import createRouter from "./createRouter"
+import createRouter from "./router"
 
 export default createRouter
 
@@ -16,9 +15,8 @@ export { createRouter }
  * app.use("/", router())
  * ```
  *
- * @param opts - An options object
- * @returns Express Router object
+ * @param options An options object (optional)
  */
-export const router = (opts: IOptions = defaultOptions) => {
-  return createRouter(Router(), opts)
+export const router = (options: Options = {}) => {
+  return createRouter(Router(), options)
 }

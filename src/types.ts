@@ -1,32 +1,55 @@
 import type { Handler } from "express"
 
-import { verboseTypes } from "./options"
+export interface Options {
+  /**
+   * The routes entry directory (optional)
+   *
+   * ```ts
+   * createRouter(app, {
+   *  directory: path.join(__dirname, "pages")
+   * })
+   * ```
+   */
+  directory?: string
+  /**
+   * Additional methods that match an export from a route like `ws`
+   *
+   * ```ts
+   * // app.ts
+   * import ws from "express-ws"
+   *
+   * const { app } = ws(express())
+   *
+   * createRouter(app, {
+   *  // without this the exported ws handler is ignored
+   *  additionalMethods: ["ws"]
+   * })
+   *
+   * // /routes/room.ts
+   * export const ws = (ws, req) => {
+   *  ws.send("hello")
+   * }
+   * ```
+   */
+  additionalMethods?: string[]
+}
 
-export interface IFile {
+export interface File {
   name: string
   path: string
   rel: string
 }
 
-export interface IRoute {
+export interface Route {
   url: string
   priority: number
-  exported: {
+  exports: {
     default?: Handler
     get?: Handler
     post?: Handler
     put?: Handler
     patch?: Handler
     delete?: Handler
-    [x: string]: any
+    [x: string]: Handler
   }
-}
-
-type TVerboseType = keyof typeof verboseTypes
-
-export interface IOptions {
-  directory?: string
-  base?: string
-  methodExports?: string[]
-  verbose?: boolean | TVerboseType
 }
