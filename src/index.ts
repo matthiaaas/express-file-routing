@@ -6,6 +6,8 @@ import createRouter from "./router"
 
 export default createRouter
 
+export { createRouter }
+
 /**
  * Routing middleware
  *
