@@ -1,5 +1,7 @@
 # express-file-routing
 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/matthiaaas/express-file-routing?color=brightgreen&label=latest)
+
 Flexible system-based file routing for Express with `0` dependencies.
 
 ## Installation
