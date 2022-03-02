@@ -56,7 +56,7 @@ Files inside your project's `/routes` directory will get matched an url path aut
 
 - `/routes/index.ts` → /
 - `/routes/posts/index.ts` → /posts
-- `/routes/posts/:id.ts` → /posts/:id
+- `/routes/posts/[id].ts` → /posts/:id
 - `/routes/users.ts` → /users
 
 ## API
@@ -82,7 +82,7 @@ router({
 
 ### HTTP Method Matching
 
-If you export functions named e.g. `get`, `post`, `put`, `delete`/`del` [etc.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) those will get matched their corresponding http method automatically.
+If you export functions named e.g. `get`, `post`, `put`, `patch`, `delete`/`del` [etc.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) those will get matched their corresponding http method automatically.
 
 ```ts
 export const get = async (req, res) => { ... }
