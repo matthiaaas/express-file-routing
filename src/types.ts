@@ -2,13 +2,17 @@ import type { Handler } from "express"
 
 export interface Options {
   /**
-   * The directory path relative to main file
+   * The routes entry directory (optional)
    *
-   * @default "/routes"
+   * ```ts
+   * createRouter(app, {
+   *  directory: path.join(__dirname, "pages")
+   * })
+   * ```
    */
   directory?: string
   /**
-   * Additional methods that match an export from an route like `ws`
+   * Additional methods that match an export from a route like `ws`
    *
    * ```ts
    * // app.ts

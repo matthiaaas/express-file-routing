@@ -66,19 +66,19 @@ Files inside your project's `/routes` directory will get matched an url path aut
 ```ts
 createRouter(app, {
   directory: path.join(__dirname, "routes"),
-  methodExports: ["ws", ...]
+  additionalMethods: ["ws", ...]
 })
 // or
 router({
   directory: path.join(__dirname, "routes"),
-  methodExports: ["ws", ...]
+  additionalMethods: ["ws", ...]
 })
 ```
 
 ### Options
 
-- `directory`: The path to the routes directory (default /routes)
-- `methodExports`: Additional method exports (e.g. `ws` for express-ws)
+- `directory`: The path to the routes directory (defaults to `/routes`)
+- `additionalMethods`: Additional methods that match an export from a route like `ws` (e.g. `ws` for express-ws)
 
 ## Examples
 
@@ -124,7 +124,7 @@ import ws from "express-ws"
 const { app } = ws(express())
 
 createRouter(app, {
-  methodExports: ["ws"]
+  additionalMethods: ["ws"]
 })
 
 // routes/index.ts
