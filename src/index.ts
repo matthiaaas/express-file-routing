@@ -6,6 +6,15 @@ import createRouter from "./router"
 
 export default createRouter
 
+/**
+ * Routing middleware
+ *
+ * ```ts
+ * app.use("/", router())
+ * ```
+ *
+ * @param options An options object (optional)
+ */
 export const router = (options: Options = {}) => {
   return createRouter(Router(), options)
 }

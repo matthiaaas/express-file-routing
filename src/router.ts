@@ -18,7 +18,7 @@ const REQUIRE_MAIN_FILE = path.dirname(require.main.filename)
  * ```
  *
  * @param app An express app or router instance
- * @param opts An options object (optional)
+ * @param options An options object (optional)
  */
 const createRouter = <T = Express>(app: T, options: Options = {}): T => {
   const files = walkTree(

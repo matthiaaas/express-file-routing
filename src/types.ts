@@ -1,7 +1,32 @@
 import type { Handler } from "express"
 
 export interface Options {
+  /**
+   * The directory path relative to main file
+   *
+   * @default "/routes"
+   */
   directory?: string
+  /**
+   * Additional methods that match an export from an route like `ws`
+   *
+   * ```ts
+   * // app.ts
+   * import ws from "express-ws"
+   *
+   * const { app } = ws(express())
+   *
+   * createRouter(app, {
+   *  // without this the exported ws handler is ignored
+   *  additionalMethods: ["ws"]
+   * })
+   *
+   * // /routes/room.ts
+   * export const ws = (ws, req) => {
+   *  ws.send("hello")
+   * }
+   * ```
+   */
   additionalMethods?: string[]
 }
 
