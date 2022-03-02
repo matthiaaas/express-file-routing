@@ -15,7 +15,3 @@ const config = {
 }
 
 export default config
-
-// const buildConfig = opts => {
-//   const options = { ...config, ...defaultOptions, ...opts }
-// }
