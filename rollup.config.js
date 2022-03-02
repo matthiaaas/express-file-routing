@@ -14,5 +14,5 @@ export default {
     }
   ],
   plugins: [typescript({ objectHashIgnoreUnknownHack: true })],
-  external: ["express"]
+  external: ["express", "path", "fs"]
 }
