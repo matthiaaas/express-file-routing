@@ -22,7 +22,7 @@ const REQUIRE_MAIN_FILE = path.dirname(require.main.filename)
  */
 const createRouter = <T = Express>(app: T, options: Options = {}): T => {
   const files = walkTree(
-    path.join(REQUIRE_MAIN_FILE, options.directory || "routes")
+    options.directory || path.join(REQUIRE_MAIN_FILE, "routes")
   )
 
   const routes = generateRoutes(files)
