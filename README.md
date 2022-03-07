@@ -69,10 +69,10 @@ createRouter(app, {
   additionalMethods: ["ws", ...]
 })
 // or
-router({
+app.use("/", router({
   directory: path.join(__dirname, "routes"),
   additionalMethods: ["ws", ...]
-})
+}))
 ```
 
 ### Options
