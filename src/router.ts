@@ -8,7 +8,7 @@ import config from "./config"
 import { generateRoutes, walkTree } from "./lib"
 import { getHandlers, getMethodKey } from "./utils"
 
-const REQUIRE_MAIN_FILE = path.dirname(require.main.filename)
+const REQUIRE_MAIN_FILE = path.dirname(require.main?.filename || process.cwd())
 
 /**
  * Attach routes to an Express app or router instance
