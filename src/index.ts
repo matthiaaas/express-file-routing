@@ -20,3 +20,5 @@ export { createRouter }
 export const router = (options: Options = {}) => {
   return createRouter(Router(), options)
 }
+
+export { Options }
