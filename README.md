@@ -132,3 +132,14 @@ export const ws = async (ws, req) => {
   ws.send("msg")
 }
 ```
+
+### Usage with TypeScript
+
+Adding support for route & method handler type definitions is as straightforward as including Express' native `Handler` type from [@types/express](https://www.npmjs.com/package/@types/express).
+
+```ts
+// /routes/posts.ts
+import type { Handler } from "express"
+
+export const get: Handler = (req, res, next) => { ... }
+```
