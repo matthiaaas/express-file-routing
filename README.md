@@ -113,6 +113,16 @@ export const get = [
 ]
 ```
 
+A middleware function might look like the following:
+
+```ts
+// /middlewares/userAuth.ts
+export default (options) => async (req, res, next) => {
+  if (req.authenticated) next()
+  ...
+}
+```
+
 ### Custom Methods Exports
 
 You can add support for other method exports to your route files.
@@ -129,7 +139,7 @@ createRouter(app, {
 
 // routes/index.ts
 export const ws = async (ws, req) => {
-  ws.send("msg")
+  ws.send("hello world")
 }
 ```
 
@@ -141,5 +151,5 @@ Adding support for route & method handler type definitions is as straightforward
 // /routes/posts.ts
 import type { Handler } from "express"
 
-export const get: Handler = (req, res, next) => { ... }
+export const get: Handler = async (req, res, next) => { ... }
 ```
