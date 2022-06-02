@@ -125,7 +125,7 @@ export default (options) => async (req, res, next) => {
 
 ### Custom Methods Exports
 
-You can add support for other method exports to your route files.
+You can add support for other method exports to your route files. This means that if your root app instance accepts non built-in handler invocations like `app.ws(route, handler)`, you can make them being recognized as valid handlers.
 
 ```ts
 // app.ts
