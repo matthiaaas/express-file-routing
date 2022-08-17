@@ -35,7 +35,7 @@ app.listen(2000)
 
 ```ts
 export default async (req, res) => {
-  if (req.method !== "GET") return res.status(404)
+  if (req.method !== "GET") return res.status(405)
 
   return res.status(200)
 }
