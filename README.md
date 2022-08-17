@@ -37,7 +37,7 @@ app.listen(2000)
 export default async (req, res) => {
   if (req.method !== "GET") return res.status(405)
 
-  return res.status(200)
+  return res.json({ hello: "world" })
 }
 ```
 
