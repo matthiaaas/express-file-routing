@@ -61,6 +61,8 @@ Files inside your project's `/routes` directory will get matched an url path aut
 - `/routes/posts/[id].ts` → /posts/:id
 - `/routes/users.ts` → /users
 
+**Note:** Files prefixed with an underscore or ending with `.d.ts` are excluded from route generation.
+
 ## API
 
 ```ts
