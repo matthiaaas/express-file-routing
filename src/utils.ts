@@ -11,6 +11,9 @@ import config from "./config"
  */
 export const isFileIgnored = (parsedFile: ParsedPath) =>
   !config.VALID_FILE_EXTENSIONS.includes(parsedFile.ext.toLowerCase()) ||
+  config.INVALID_NAME_SUFFIXES.some(suffix =>
+    parsedFile.base.toLowerCase().endsWith(suffix)
+  ) ||
   parsedFile.name.startsWith(config.IGNORE_PREFIX_CHAR) ||
   parsedFile.dir.startsWith(`/${config.IGNORE_PREFIX_CHAR}`)
 
