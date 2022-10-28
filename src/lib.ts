@@ -43,7 +43,7 @@ export const walkTree = (directory: string, tree: string[] = []) => {
  *
  * @returns
  */
-export const generateRoutes = (files: File[]) => {
+export const generateRoutes = async (files: File[]) => {
   const routes: Route[] = []
 
   for (const file of files) {
@@ -58,7 +58,7 @@ export const generateRoutes = (files: File[]) => {
 
     const url = convertParamSyntax(directory + name)
     const priority = calculatePriority(url)
-    const exports = require(path.join(file.path, file.name))
+    const exports = await import(path.join(file.path, file.name))
 
     routes.push({
       url,

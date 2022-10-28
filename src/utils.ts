@@ -3,6 +3,7 @@ import type { ParsedPath } from "path"
 import type { Route } from "./types"
 
 import config from "./config"
+import { Handler } from "express"
 
 /**
  * @param parsedFile
@@ -71,9 +72,8 @@ export const calculatePriority = (url: string) => {
   return depth + specifity
 }
 
-export const getHandlers = handler => {
+export const getHandlers = (handler: Handler | Handler[]): Handler[] => {
   if (!Array.isArray(handler)) return [handler]
-
   return handler
 }
 
