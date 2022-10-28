@@ -22,8 +22,10 @@ import createRouter, { router } from "express-file-routing"
 
 const app = express()
 
+// Option 1
 app.use("/", router()) // as router middleware or
 
+// Option 2
 createRouter(app) // as wrapper function
 
 app.listen(2000)
@@ -35,9 +37,9 @@ app.listen(2000)
 
 ```ts
 export default async (req, res) => {
-  if (req.method !== "GET") return res.status(404)
+  if (req.method !== "GET") return res.status(405)
 
-  return res.status(200)
+  return res.json({ hello: "world" })
 }
 ```
 
@@ -60,6 +62,8 @@ Files inside your project's `/routes` directory will get matched an url path aut
 - `/routes/posts/index.ts` → /posts
 - `/routes/posts/[id].ts` → /posts/:id
 - `/routes/users.ts` → /users
+
+**Note:** Files prefixed with an underscore or ending with `.d.ts` are excluded from route generation.
 
 ## API
 
