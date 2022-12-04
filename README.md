@@ -165,7 +165,7 @@ It is essential to catch potential errors (500s, 404s etc.) within your route ha
 Defining custom error-handling middleware functions should happen *after* applying your file-system routes.
 
 ```ts
-app.use(router()) // or createRouter(app)
+app.use("/", router()) // or createRouter(app)
 
 app.use(async (err, req, res, next) => {
 
