@@ -14,6 +14,8 @@ npm install express-file-routing
 
 ## How to use
 
+Fundamentally, there are two ways of adding this library to your codebase: either as a middleware `app.use("/", router())`, which will add a separate [mini-router](http://expressjs.com/en/5x/api.html#router) to your app, or by wrapping your whole Express instance with a `createRouter(app)`, which will bind the routes directly to your app. In most cases, it doesn't matter on what option you decide, even though one or the other might perform better in some scenarios.
+
 - app.ts (main)
 
 ```ts
