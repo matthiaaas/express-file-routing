@@ -157,3 +157,17 @@ import type { Handler } from "express"
 
 export const get: Handler = async (req, res, next) => { ... }
 ```
+
+### Error Handling
+
+It is essential to catch potential errors (500s, 404s etc.) within your route handlers and forward them through `next(err)` if necessary, as treated in the Express' docs on [error handling](https://expressjs.com/en/guide/error-handling.html).
+
+Defining custom error-handling middleware functions should happen *after* applying your file-system routes.
+
+```ts
+app.use(router()) // or createRouter(app)
+
+app.use(async (err, req, res, next) => {
+
+})
+```
