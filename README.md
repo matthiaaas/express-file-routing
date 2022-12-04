@@ -120,7 +120,7 @@ export const get = [
 A middleware function might look like the following:
 
 ```ts
-// /middlewares/userAuth.ts
+// middlewares/userAuth.ts
 export default (options) => async (req, res, next) => {
   if (req.authenticated) next()
   ...
@@ -152,7 +152,7 @@ export const ws = async (ws, req) => {
 Adding support for route & method handler type definitions is as straightforward as including Express' native `Handler` type from [@types/express](https://www.npmjs.com/package/@types/express).
 
 ```ts
-// /routes/posts.ts
+// routes/posts.ts
 import type { Handler } from "express"
 
 export const get: Handler = async (req, res, next) => { ... }
