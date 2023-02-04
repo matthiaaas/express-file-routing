@@ -1,9 +1,9 @@
 {
-  "name": "@notarobot13/express-file-routing",
+  "name": "express-file-routing",
   "version": "2.0.5",
-  "description": "File routing with catch-all support in express",
-  "author": "mads",
-  "repository": "NotaRobot13/express-file-routing",
+  "description": "Simple system-based file routing for Express",
+  "author": "Matthias Halfmann",
+  "repository": "matthiaaas/express-file-routing",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
