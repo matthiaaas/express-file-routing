@@ -129,6 +129,18 @@ export default (options) => async (req, res, next) => {
 }
 ```
 
+### Catch-all
+
+You can create a catch-all route by making a folder with the name "[\$]" (without quotes). This will make that route match all subsequent routes within that route. For example, if you had a catch-all route at `/a/b/c`, then went to `/a/b/c/d/e/f/g`, it would match the route located at `/a/b/c/[$]/index.ts`.
+
+```ts
+// routes/a/b/c/[$]/index.ts
+export default async get (req, res) => { 
+  return res.status(200).send({path: req.params[0].split('/')});
+}
+```
+```
+
 ### Custom Methods Exports
 
 You can add support for other method exports to your route files. This means that if your root app instance accepts non built-in handler invocations like `app.ws(route, handler)`, you can make them being recognized as valid handlers.
