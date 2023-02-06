@@ -37,16 +37,11 @@ export const prioritizeRoutes = (routes: Route[]) =>
 export const mergePaths = (...paths: string[]) =>
   `/${paths.filter(path => path !== "").join("/")}`
 
-const regBackets = /\[([^}]*)\]/g // matches all brackets with their content
+const regBackets = /\[([^}]*)\]/g
 
-const regStarBrackets = /\[\$\]/g // matches [$] only, for catch-alls
+const transformBrackets = (value: string) =>
+  regBackets.test(value) ? value.replace(regBackets, (_, s) => `:${s}`) : value
 
-const transformBrackets = (value: string) => {
-  let transformed = value
-  transformed = regBackets.test(transformed) ? transformed.replace(regBackets, (_, s) => `:${s}`) : transformed;
-  transformed = regStarBrackets.test(transformed) ? transformed.replace(regStarBrackets, "*") : transformed; // catch-all should have priority over named params
-  return transformed;
-}
 /**
  * @param path
  *
@@ -63,6 +58,28 @@ export const convertParamSyntax = (path: string) => {
 }
 
 /**
+ * ```ts
+ * convertCatchallSyntax("/posts/:...catchall") -> "/posts/*"
+ * ```
+ *
+ * @param url
+ *
+ * @returns A new url with all `:...` replaced by `*`
+ */
+export const convertCatchallSyntax = (url: string) =>
+  url.replace(/:\.\.\.\w+/g, "*")
+
+/**
+ * @param path
+ *
+ * @returns A new path with all wrapping `[]` replaced by prefixed `:` and all `:...` replaced by `*`
+ */
+export const buildRouteUrl = (path: string) => {
+  const url = convertParamSyntax(path)
+  return convertCatchallSyntax(url)
+}
+
+/**
  * The smaller the number the higher the priority with zero indicating highest priority
  *
  * @param url
@@ -72,8 +89,9 @@ export const convertParamSyntax = (path: string) => {
 export const calculatePriority = (url: string) => {
   const depth = url.match(/\/.+?/g)?.length || 0
   const specifity = url.match(/\/:.+?/g)?.length || 0
+  const catchall = url.match(/\/\*/g)?.length > 0 ? Infinity : 0
 
-  return depth + specifity
+  return depth + specifity + catchall
 }
 
 export const getHandlers = handler => {
