@@ -178,13 +178,13 @@ app.use(async (err, req, res, next) => {
 
 This library lets you extend dynamic paths to catch-all routes by prefixing it with three dots `...` inside the brackets. This will make that route match itself but also all subsequent routes within that route.
 
-- `/routes/users/[...catchall].js` matches /users, but also /users/a, /users/a/b and so on.
-
 **Note:** Since this feature got added recently, it might be unstable. Feedback is welcome.
 
 ```ts
-// routes/[...catchall].js
+// routes/users/[...catchall].js
 export const get = async (req, res) => {
   return res.json({ path: req.params[0] })
 }
 ```
+
+- `/routes/users/[...catchall].js` matches /users, but also /users/a, /users/a/b and so on.
