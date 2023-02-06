@@ -39,7 +39,7 @@ export const mergePaths = (...paths: string[]) =>
 
 const regBackets = /\[([^}]*)\]/g // matches all brackets with their content
 
-const regStarBrackets = /^\[\$\]$/g // matches [$] only, for catch-alls
+const regStarBrackets = /\[\$\]/g // matches [$] only, for catch-alls
 
 const transformBrackets = (value: string) => {
   let transformed = value
