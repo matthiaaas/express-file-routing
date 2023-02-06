@@ -129,18 +129,6 @@ export default (options) => async (req, res, next) => {
 }
 ```
 
-### Catch-all
-
-You can create a catch-all route by making a folder with the name "[\$]" (without quotes). This will make that route match all subsequent routes within that route. For example, if you had a catch-all route at `/a/b/c`, then went to `/a/b/c/d/e/f/g`, it would match the route located at `/a/b/c/[$]/index.ts`.
-
-```ts
-// routes/a/b/c/[$]/index.ts
-export default async get (req, res) => { 
-  return res.status(200).send({path: req.params[0].split('/')});
-}
-```
-```
-
 ### Custom Methods Exports
 
 You can add support for other method exports to your route files. This means that if your root app instance accepts non built-in handler invocations like `app.ws(route, handler)`, you can make them being recognized as valid handlers.
@@ -176,12 +164,27 @@ export const get: Handler = async (req, res, next) => { ... }
 
 It is essential to catch potential errors (500s, 404s etc.) within your route handlers and forward them through `next(err)` if necessary, as treated in the Express' docs on [error handling](https://expressjs.com/en/guide/error-handling.html).
 
-Defining custom error-handling middleware functions should happen *after* applying your file-system routes.
+Defining custom error-handling middleware functions should happen _after_ applying your file-system routes.
 
 ```ts
 app.use("/", router()) // or createRouter(app)
 
 app.use(async (err, req, res, next) => {
-
+  ...
 })
+```
+
+### Catch-All (unstable)
+
+This library lets you extend dynamic paths to catch-all routes by prefixing it with three dots `...` inside the brackets. This will make that route match itself but also all subsequent routes within that route.
+
+- `/routes/users/[...catchall].js` matches /users, but also /users/a, /users/a/b and so on.
+
+**Note:** Since this feature got added recently, it might be unstable. Feedback is welcome.
+
+```ts
+// routes/[...catchall].js
+export const get = async (req, res) => {
+  return res.json({ path: req.params[0] })
+}
 ```
