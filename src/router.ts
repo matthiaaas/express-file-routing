@@ -45,7 +45,7 @@ const createRouter = <T = Express>(app: T, options: Options = {}): T => {
 
     // wildcard default export route matching
     if (typeof exports.default !== "undefined") {
-      ;(app as unknown as Express).all(url, ...getHandlers(exports.default))
+      ;(app as unknown as any).all(url, ...getHandlers(exports.default))
     }
   }
 

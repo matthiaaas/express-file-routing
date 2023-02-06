@@ -58,6 +58,28 @@ export const convertParamSyntax = (path: string) => {
 }
 
 /**
+ * ```ts
+ * convertCatchallSyntax("/posts/:...catchall") -> "/posts/*"
+ * ```
+ *
+ * @param url
+ *
+ * @returns A new url with all `:...` replaced by `*`
+ */
+export const convertCatchallSyntax = (url: string) =>
+  url.replace(/:\.\.\.\w+/g, "*")
+
+/**
+ * @param path
+ *
+ * @returns A new path with all wrapping `[]` replaced by prefixed `:` and all `:...` replaced by `*`
+ */
+export const buildRouteUrl = (path: string) => {
+  const url = convertParamSyntax(path)
+  return convertCatchallSyntax(url)
+}
+
+/**
  * The smaller the number the higher the priority with zero indicating highest priority
  *
  * @param url
@@ -67,8 +89,9 @@ export const convertParamSyntax = (path: string) => {
 export const calculatePriority = (url: string) => {
   const depth = url.match(/\/.+?/g)?.length || 0
   const specifity = url.match(/\/:.+?/g)?.length || 0
+  const catchall = url.match(/\/\*/g)?.length > 0 ? Infinity : 0
 
-  return depth + specifity
+  return depth + specifity + catchall
 }
 
 export const getHandlers = handler => {
