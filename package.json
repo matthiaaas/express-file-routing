@@ -1,6 +1,6 @@
 {
   "name": "express-file-routing",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Simple system-based file routing for Express",
   "author": "Matthias Halfmann",
   "repository": "matthiaaas/express-file-routing",
