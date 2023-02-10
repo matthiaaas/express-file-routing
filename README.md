@@ -187,4 +187,4 @@ export const get = async (req, res) => {
 }
 ```
 
-- `/routes/users/[...catchall].js` matches /users, but also /users/a, /users/a/b and so on.
+- `/routes/users/[...catchall].js` matches /users/a, /users/a/b and so on, but **not** /users.
