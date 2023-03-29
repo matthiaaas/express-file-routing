@@ -12,6 +12,7 @@ const cjsMainFilename = typeof require !== "undefined" && require.main?.filename
 const REQUIRE_MAIN_FILE = path.dirname(cjsMainFilename || process.cwd())
 
 type ExpressLike = Express | Router
+
 /**
  * Attach routes to an Express app or router instance
  *
@@ -50,8 +51,7 @@ const createRouter = async <T extends ExpressLike = ExpressLike>(
 
     // wildcard default export route matching
     if (typeof exports.default !== "undefined") {
-      const defaultHandlers = getHandlers(exports.default)
-      app.all.apply(null, [url, ...defaultHandlers])
+      app.all.apply(null, [url, ...getHandlers(exports.default)])
     }
   }
 
