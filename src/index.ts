@@ -12,13 +12,13 @@ export { createRouter }
  * Routing middleware
  *
  * ```ts
- * app.use("/", router())
+ * app.use("/", await router())
  * ```
  *
  * @param options An options object (optional)
  */
-export const router = (options: Options = {}) => {
-  return createRouter(Router(), options)
+export const router = async (options: Options = {}) => {
+  return await createRouter(Router(), options)
 }
 
 export { Options }
