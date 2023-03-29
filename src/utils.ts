@@ -1,9 +1,9 @@
+import type { Handler } from "express"
 import type { ParsedPath } from "path"
 
 import type { Route } from "./types"
 
 import config from "./config"
-import { Handler } from "express"
 
 /**
  * @param parsedFile
