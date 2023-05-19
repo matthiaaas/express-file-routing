@@ -34,8 +34,12 @@ export const prioritizeRoutes = (routes: Route[]) =>
  *
  * @returns A unification of all paths provided
  */
-export const mergePaths = (...paths: string[]) =>
-  `/${paths.filter(path => path !== "").join("/")}`
+export const mergePaths = (...paths) =>
+  "/" +
+  paths
+    .map(path => path.replace(/^\/|\/$/g, ""))
+    .filter(path => path !== "")
+    .join("/")
 
 const regBackets = /\[([^}]*)\]/g
 

@@ -58,4 +58,14 @@ describe("mergePaths", () => {
       "/auth/signin/token.ts"
     )
   })
+
+  test("multiple path fragments with dynamic parameters", () => {
+    expect(
+      mergePaths("/posts", "/[userId]", "/comments", "[commentId].ts")
+    ).toBe("/posts/[userId]/comments/[commentId].ts")
+  })
+
+  test("multiple malformed path fragments", () => {
+    expect(mergePaths("/", "/auth", "//", "signin.ts")).toBe("/auth/signin.ts")
+  })
 })
