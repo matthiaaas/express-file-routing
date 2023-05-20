@@ -4,8 +4,8 @@ import path from "path"
 import type { File, Route } from "./types"
 
 import {
+  buildRouteUrl,
   calculatePriority,
-  convertParamSyntax,
   isFileIgnored,
   mergePaths,
   prioritizeRoutes
@@ -56,7 +56,7 @@ export const generateRoutes = async (files: File[]) => {
       ? parsedFile.name.replace("index", "")
       : `/${parsedFile.name}`
 
-    const url = convertParamSyntax(directory + name)
+    const url = buildRouteUrl(directory + name)
     const priority = calculatePriority(url)
     const exports = await import(path.join(file.path, file.name))
 

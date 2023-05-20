@@ -35,8 +35,12 @@ export const prioritizeRoutes = (routes: Route[]) =>
  *
  * @returns A unification of all paths provided
  */
-export const mergePaths = (...paths: string[]) =>
-  `/${paths.filter(path => path !== "").join("/")}`
+export const mergePaths = (...paths) =>
+  "/" +
+  paths
+    .map(path => path.replace(/^\/|\/$/g, ""))
+    .filter(path => path !== "")
+    .join("/")
 
 const regBackets = /\[([^}]*)\]/g
 
@@ -59,6 +63,28 @@ export const convertParamSyntax = (path: string) => {
 }
 
 /**
+ * ```ts
+ * convertCatchallSyntax("/posts/:...catchall") -> "/posts/*"
+ * ```
+ *
+ * @param url
+ *
+ * @returns A new url with all `:...` replaced by `*`
+ */
+export const convertCatchallSyntax = (url: string) =>
+  url.replace(/:\.\.\.\w+/g, "*")
+
+/**
+ * @param path
+ *
+ * @returns A new path with all wrapping `[]` replaced by prefixed `:` and all `:...` replaced by `*`
+ */
+export const buildRouteUrl = (path: string) => {
+  const url = convertParamSyntax(path)
+  return convertCatchallSyntax(url)
+}
+
+/**
  * The smaller the number the higher the priority with zero indicating highest priority
  *
  * @param url
@@ -68,8 +94,9 @@ export const convertParamSyntax = (path: string) => {
 export const calculatePriority = (url: string) => {
   const depth = url.match(/\/.+?/g)?.length || 0
   const specifity = url.match(/\/:.+?/g)?.length || 0
+  const catchall = url.match(/\/\*/g)?.length > 0 ? Infinity : 0
 
-  return depth + specifity
+  return depth + specifity + catchall
 }
 
 export const getHandlers = (handler: Handler | Handler[]): Handler[] => {

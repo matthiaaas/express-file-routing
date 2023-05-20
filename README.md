@@ -14,6 +14,8 @@ npm install express-file-routing
 
 ## How to use
 
+Fundamentally, there are two ways of adding this library to your codebase: either as a middleware `app.use("/", router())`, which will add a separate [mini-router](http://expressjs.com/en/5x/api.html#router) to your app, or by wrapping your whole Express instance with a `createRouter(app)`, which will bind the routes directly to your app. In most cases, it doesn't matter on what option you decide, even though one or the other might perform better in some scenarios.
+
 - app.ts (main)
 
 ```ts
@@ -120,7 +122,7 @@ export const get = [
 A middleware function might look like the following:
 
 ```ts
-// /middlewares/userAuth.ts
+// middlewares/userAuth.ts
 export default (options) => async (req, res, next) => {
   if (req.authenticated) next()
   ...
@@ -152,8 +154,37 @@ export const ws = async (ws, req) => {
 Adding support for route & method handler type definitions is as straightforward as including Express' native `Handler` type from [@types/express](https://www.npmjs.com/package/@types/express).
 
 ```ts
-// /routes/posts.ts
+// routes/posts.ts
 import type { Handler } from "express"
 
 export const get: Handler = async (req, res, next) => { ... }
 ```
+
+### Error Handling
+
+It is essential to catch potential errors (500s, 404s etc.) within your route handlers and forward them through `next(err)` if necessary, as treated in the Express' docs on [error handling](https://expressjs.com/en/guide/error-handling.html).
+
+Defining custom error-handling middleware functions should happen _after_ applying your file-system routes.
+
+```ts
+app.use("/", router()) // or createRouter(app)
+
+app.use(async (err, req, res, next) => {
+  ...
+})
+```
+
+### Catch-All (unstable)
+
+This library lets you extend dynamic paths to catch-all routes by prefixing it with three dots `...` inside the brackets. This will make that route match itself but also all subsequent routes within that route.
+
+**Note:** Since this feature got added recently, it might be unstable. Feedback is welcome.
+
+```ts
+// routes/users/[...catchall].js
+export const get = async (req, res) => {
+  return res.json({ path: req.params[0] })
+}
+```
+
+- `/routes/users/[...catchall].js` matches /users/a, /users/a/b and so on, but **not** /users.
