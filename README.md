@@ -14,7 +14,7 @@ npm install express-file-routing
 
 ## How to use
 
-Fundamentally, there are two ways of adding this library to your codebase: either as a middleware `app.use("/", router())`, which will add a separate [mini-router](http://expressjs.com/en/5x/api.html#router) to your app, or by wrapping your whole Express instance with a `createRouter(app)`, which will bind the routes directly to your app. In most cases, it doesn't matter on what option you decide, even though one or the other might perform better in some scenarios.
+Fundamentally, there are two ways of adding this library to your codebase: either as a middleware `app.use("/", await router())`, which will add a separate [mini-router](http://expressjs.com/en/5x/api.html#router) to your app, or by wrapping your whole Express instance with a `await createRouter(app)`, which will bind the routes directly to your app. In most cases, it doesn't matter on what option you decide, even though one or the other might perform better in some scenarios.
 
 - app.ts (main)
 
@@ -25,10 +25,10 @@ import createRouter, { router } from "express-file-routing"
 const app = express()
 
 // Option 1
-app.use("/", router()) // as router middleware or
+app.use("/", await router()) // as router middleware or
 
 // Option 2
-createRouter(app) // as wrapper function
+await createRouter(app) // as wrapper function
 
 app.listen(2000)
 ```
@@ -70,12 +70,12 @@ Files inside your project's `/routes` directory will get matched an url path aut
 ## API
 
 ```ts
-createRouter(app, {
+await createRouter(app, {
   directory: path.join(__dirname, "routes"),
   additionalMethods: ["ws", ...]
 })
 // or
-app.use("/", router({
+app.use("/", await router({
   directory: path.join(__dirname, "routes"),
   additionalMethods: ["ws", ...]
 }))
@@ -139,7 +139,7 @@ import ws from "express-ws"
 
 const { app } = ws(express())
 
-createRouter(app, {
+await createRouter(app, {
   additionalMethods: ["ws"]
 })
 
@@ -167,7 +167,7 @@ It is essential to catch potential errors (500s, 404s etc.) within your route ha
 Defining custom error-handling middleware functions should happen _after_ applying your file-system routes.
 
 ```ts
-app.use("/", router()) // or createRouter(app)
+app.use("/", await router()) // or await createRouter(app)
 
 app.use(async (err, req, res, next) => {
   ...
