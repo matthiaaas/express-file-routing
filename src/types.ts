@@ -40,16 +40,26 @@ export interface File {
   rel: string
 }
 
+interface MethodExports {
+  get?: Handler
+  post?: Handler
+  put?: Handler
+  patch?: Handler
+  delete?: Handler
+  head?: Handler
+  connect?: Handler
+  options?: Handler
+  trace?: Handler
+
+  [x: string]: Handler
+}
+
+type Exports = MethodExports & {
+  default?: MethodExports
+}
+
 export interface Route {
   url: string
   priority: number
-  exports: {
-    default?: Handler
-    get?: Handler
-    post?: Handler
-    put?: Handler
-    patch?: Handler
-    delete?: Handler
-    [x: string]: Handler
-  }
+  exports: Exports
 }

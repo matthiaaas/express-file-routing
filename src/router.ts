@@ -8,10 +8,9 @@ import config from "./config"
 import { generateRoutes, walkTree } from "./lib"
 import { getHandlers, getMethodKey } from "./utils"
 
-const cjsMainFilename = typeof require !== "undefined" && require.main?.filename
-const REQUIRE_MAIN_FILE = path.dirname(cjsMainFilename || process.cwd())
-
-type ExpressLike = Express | Router
+const CJS_MAIN_FILENAME =
+  typeof require !== "undefined" && require.main?.filename
+const REQUIRE_MAIN_FILE = path.dirname(CJS_MAIN_FILENAME || process.cwd())
 
 type ExpressLike = Express | Router
 
@@ -52,9 +51,8 @@ const createRouter = async <T extends ExpressLike = ExpressLike>(
     }
 
     // wildcard default export route matching
-    if (typeof exports.default !== "undefined") {
-      app.all.apply(null, [url, ...getHandlers(exports.default)])
-      app.all.apply(app, [url, ...getHandlers(exports.default)])
+    if (typeof exports.default.default !== "undefined") {
+      app.all.apply(app, [url, ...getHandlers(exports.default.default)])
     }
   }
 
