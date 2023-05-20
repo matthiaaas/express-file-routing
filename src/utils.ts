@@ -1,3 +1,4 @@
+import type { Handler } from "express"
 import type { ParsedPath } from "path"
 
 import type { Route } from "./types"
@@ -98,9 +99,8 @@ export const calculatePriority = (url: string) => {
   return depth + specifity + catchall
 }
 
-export const getHandlers = handler => {
+export const getHandlers = (handler: Handler | Handler[]): Handler[] => {
   if (!Array.isArray(handler)) return [handler]
-
   return handler
 }
 

@@ -5,7 +5,7 @@ export interface Options {
    * The routes entry directory (optional)
    *
    * ```ts
-   * createRouter(app, {
+   * await createRouter(app, {
    *  directory: path.join(__dirname, "pages")
    * })
    * ```
@@ -20,7 +20,7 @@ export interface Options {
    *
    * const { app } = ws(express())
    *
-   * createRouter(app, {
+   * await createRouter(app, {
    *  // without this the exported ws handler is ignored
    *  additionalMethods: ["ws"]
    * })
