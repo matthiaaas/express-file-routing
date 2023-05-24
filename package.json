@@ -6,6 +6,7 @@
   "repository": "matthiaaas/express-file-routing",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "test": "jest",
     "build": "rollup -c",
