@@ -54,9 +54,7 @@ interface MethodExports {
   [x: string]: Handler
 }
 
-type Exports = MethodExports & {
-  default?: MethodExports
-}
+type Exports = MethodExports
 
 export interface Route {
   url: string

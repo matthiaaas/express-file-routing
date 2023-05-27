@@ -51,8 +51,8 @@ const createRouter = async <T extends ExpressLike = ExpressLike>(
     }
 
     // wildcard default export route matching
-    if (typeof exports.default.default !== "undefined") {
-      app.all.apply(app, [url, ...getHandlers(exports.default.default)])
+    if (typeof exports.default !== "undefined") {
+      app.all.apply(app, [url, ...getHandlers(exports.default)])
     }
   }
 
