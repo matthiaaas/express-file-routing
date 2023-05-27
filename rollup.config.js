@@ -9,7 +9,7 @@ export default {
   input: "src/index.ts",
   output: [
     {
-      file: "dist/esm/index.js",
+      file: pkg.module,
       format: "esm",
       exports: "named",
       sourcemap: true,
@@ -17,7 +17,7 @@ export default {
       esModule: true
     },
     {
-      file: "dist/cjs/index.js",
+      file: pkg.main,
       format: "cjs",
       exports: "named",
       sourcemap: true,

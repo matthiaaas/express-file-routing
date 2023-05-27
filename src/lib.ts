@@ -4,6 +4,7 @@ import path from "path"
 import type { File, Route } from "./types"
 
 import {
+  buildRoutePath,
   buildRouteUrl,
   calculatePriority,
   isFileIgnored,
@@ -12,8 +13,10 @@ import {
 } from "./utils"
 
 /**
+ * Recursively walk a directory and return all nested files.
+ *
  * @param directory The directory path to walk recursively
- * @param tree
+ * @param tree The tree of directories leading to the current directory
  *
  * @returns An array of all nested files in the specified directory
  */
@@ -39,9 +42,11 @@ export const walkTree = (directory: string, tree: string[] = []) => {
 }
 
 /**
- * @param files
+ * Generate routes from an array of files by loading them as modules.
  *
- * @returns
+ * @param files An array of files to generate routes from
+ *
+ * @returns An array of routes
  */
 export const generateRoutes = async (files: File[]) => {
   const routes: Route[] = []
@@ -51,12 +56,8 @@ export const generateRoutes = async (files: File[]) => {
 
     if (isFileIgnored(parsedFile)) continue
 
-    const directory = parsedFile.dir === parsedFile.root ? "" : parsedFile.dir
-    const name = parsedFile.name.startsWith("index")
-      ? parsedFile.name.replace("index", "")
-      : `/${parsedFile.name}`
-
-    const url = buildRouteUrl(directory + name)
+    const routePath = buildRoutePath(parsedFile)
+    const url = buildRouteUrl(routePath)
     const priority = calculatePriority(url)
     const exports = await import(path.join(file.path, file.name))
 

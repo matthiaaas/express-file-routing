@@ -74,6 +74,15 @@ export const convertParamSyntax = (path: string) => {
 export const convertCatchallSyntax = (url: string) =>
   url.replace(/:\.\.\.\w+/g, "*")
 
+export const buildRoutePath = (parsedFile: ParsedPath) => {
+  const directory = parsedFile.dir === parsedFile.root ? "" : parsedFile.dir
+  const name = parsedFile.name.startsWith("index")
+    ? parsedFile.name.replace("index", "")
+    : `/${parsedFile.name}`
+
+  return directory + name
+}
+
 /**
  * @param path
  *

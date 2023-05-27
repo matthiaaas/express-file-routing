@@ -1,4 +1,6 @@
-import type { Handler } from "express"
+import type { Express, Router, Handler } from "express"
+
+export type ExpressLike = Express | Router
 
 export interface Options {
   /**
