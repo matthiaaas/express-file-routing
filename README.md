@@ -177,7 +177,7 @@ app.use(async (err, req, res, next) => {
 
 ### Catch-All (unstable)
 
-This library lets you extend dynamic paths to catch-all routes by prefixing it with three dots `...` inside the brackets. This will make that route match itself but also all subsequent routes within that route.
+This library lets you extend dynamic routes to catch-all routes by prefixing it with three dots `...` inside the brackets. This will make that route match itself but also all subsequent routes within that route.
 
 **Note:** Since this feature got added recently, it might be unstable. Feedback is welcome.
 
@@ -188,11 +188,11 @@ export const get = async (req, res) => {
 }
 ```
 
-- `/routes/users/[...catchall].js` matches /users/a, /users/a/b and so on, but **not** /users.
+- `routes/users/[...catchall].js` matches /users/a, /users/a/b and so on, but **not** /users.
 
 ## Migrating from v2
 
-The latest version v3 fixed stable support for ESM & CJS compatibility. But also **introduced a breaking change** in the library's API. To upgrade, first upgrade to the latest version from npm.
+The latest version v3 fixed stable support for ESM & CJS compatibility. But also **introduced a breaking change** in the library's API. To upgrade, first install the latest version from npm.
 
 ### Upgrade version
 
