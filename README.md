@@ -38,7 +38,7 @@ app.listen(2000)
 - routes/index.ts
 
 ```ts
-export default async (req, res) => {
+export const get = async (req, res) => {
   if (req.method !== "GET") return res.status(405)
 
   return res.json({ hello: "world" })
@@ -188,3 +188,35 @@ export const get = async (req, res) => {
 ```
 
 - `/routes/users/[...catchall].js` matches /users/a, /users/a/b and so on, but **not** /users.
+
+## Migrating from v2
+
+The latest version v3 fixed stable support for ESM & CJS compatibility. But also **introduced a breaking change** in the library's API. To upgrade, first upgrade to the latest version from npm.
+
+```
+npm install express-file-routing@latest
+```
+
+Registering the file-router in v2 was synchronous. Newer versions require you to await the router. So the only change in your codebase will be to await the router instead of calling it synchronously:
+
+```diff
+const app = express()
+
+- app.use(router())
++ app.use(await router())
+
+app.listen(2000)
+```
+
+Or if you were using `createRouter()`:
+
+```diff
+const app = express()
+
+- createRouter(app)
++ await createRouter(app)
+
+app.listen(2000)
+```
+
+**Note:** If you environment does not support top-level await, you might need to wrap you code in an async function.
