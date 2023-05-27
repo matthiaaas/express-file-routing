@@ -7,10 +7,15 @@ import {
   buildRoutePath,
   buildRouteUrl,
   calculatePriority,
+  isCjs,
   isFileIgnored,
   mergePaths,
   prioritizeRoutes
 } from "./utils"
+
+const IS_ESM = !isCjs()
+
+const MODULE_IMPORT_PREFIX = IS_ESM ? "file://" : ""
 
 /**
  * Recursively walk a directory and return all nested files.
@@ -59,7 +64,9 @@ export const generateRoutes = async (files: File[]) => {
     const routePath = buildRoutePath(parsedFile)
     const url = buildRouteUrl(routePath)
     const priority = calculatePriority(url)
-    const exports = await import(path.join(file.path, file.name))
+    const exports = await import(
+      MODULE_IMPORT_PREFIX + path.join(file.path, file.name)
+    )
 
     routes.push({
       url,

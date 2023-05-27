@@ -5,7 +5,7 @@ import type { ExpressLike, Options } from "./types"
 import config from "./config"
 
 import { generateRoutes, walkTree } from "./lib"
-import { getHandlers, getMethodKey } from "./utils"
+import { getHandlers, getMethodKey, isCjs } from "./utils"
 
 const CJS_MAIN_FILENAME =
   typeof require !== "undefined" && require.main?.filename
@@ -14,7 +14,7 @@ const PROJECT_DIRECTORY = CJS_MAIN_FILENAME
   ? path.dirname(CJS_MAIN_FILENAME)
   : process.cwd()
 
-const IS_CJS = typeof module !== "undefined" && module?.exports
+const IS_CJS = isCjs()
 
 /**
  * Attach routes to an Express app or router instance
