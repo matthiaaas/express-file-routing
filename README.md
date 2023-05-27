@@ -55,7 +55,7 @@ Files inside your project's `/routes` directory will get matched an url path aut
     ├── index.ts // index routes
     ├── posts
         ├── index.ts
-        └── :id.ts or [id].ts // dynamic params
+        └── [id].ts or :id.ts // dynamic params
     └── users.ts
 └── package.json
 ```
@@ -90,14 +90,14 @@ app.use("/", await router({
 
 ### HTTP Method Matching
 
-If you export functions named e.g. `get`, `post`, `put`, `patch`, `delete`/`del` [etc.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) those will get matched their corresponding http method automatically.
+If you export functions named e.g. `get`, `post`, `put`, `patch`, `delete`/`del` [etc.](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) from a route file, those will get matched their corresponding http method automatically.
 
 ```ts
 export const get = async (req, res) => { ... }
 
 export const post = async (req, res) => { ... }
 
-// it's not allowed to name variables 'delete': try 'del' instead
+// since it's not allowed to name constants 'delete', try 'del' instead
 export const del = async (req, res) => { ... }
 
 // you can still use a wildcard default export in addition
@@ -111,6 +111,7 @@ export default async (req, res) => { ... }
 You can add isolated, route specific middlewares by exporting an array of Express request handlers from your route file.
 
 ```ts
+// routes/dashboard
 import { rateLimit, bearerToken, userAuth } from "../middlewares"
 
 export const get = [
@@ -193,9 +194,13 @@ export const get = async (req, res) => {
 
 The latest version v3 fixed stable support for ESM & CJS compatibility. But also **introduced a breaking change** in the library's API. To upgrade, first upgrade to the latest version from npm.
 
+### Upgrade version
+
 ```
 npm install express-file-routing@latest
 ```
+
+### Await the router
 
 Registering the file-router in v2 was synchronous. Newer versions require you to await the router. So the only change in your codebase will be to await the router instead of calling it synchronously:
 
