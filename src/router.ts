@@ -14,6 +14,8 @@ const PROJECT_DIRECTORY = CJS_MAIN_FILENAME
   ? path.dirname(CJS_MAIN_FILENAME)
   : process.cwd()
 
+const IS_CJS = typeof module !== "undefined" && module?.exports
+
 type ExpressLike = Express | Router
 
 /**
@@ -53,6 +55,9 @@ const createRouter = async <T extends ExpressLike = ExpressLike>(
     }
 
     // wildcard default export route matching
+    if (IS_CJS && typeof exports.default.default !== "undefined") {
+      app.all.apply(app, [url, ...getHandlers(exports.default.default)])
+    } else if (!IS_CJS && typeof exports.default !== "undefined") {
       app.all.apply(app, [url, ...getHandlers(exports.default)])
     }
   }
