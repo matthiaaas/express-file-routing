@@ -10,7 +10,9 @@ import { getHandlers, getMethodKey } from "./utils"
 
 const CJS_MAIN_FILENAME =
   typeof require !== "undefined" && require.main?.filename
-const REQUIRE_MAIN_FILE = path.dirname(CJS_MAIN_FILENAME || process.cwd())
+const PROJECT_DIRECTORY = CJS_MAIN_FILENAME
+  ? path.dirname(CJS_MAIN_FILENAME)
+  : process.cwd()
 
 type ExpressLike = Express | Router
 
@@ -29,7 +31,7 @@ const createRouter = async <T extends ExpressLike = ExpressLike>(
   options: Options = {}
 ): Promise<T> => {
   const files = walkTree(
-    options.directory || path.join(REQUIRE_MAIN_FILE, "routes")
+    options.directory || path.join(PROJECT_DIRECTORY, "routes")
   )
 
   const routes = await generateRoutes(files)
@@ -51,7 +53,6 @@ const createRouter = async <T extends ExpressLike = ExpressLike>(
     }
 
     // wildcard default export route matching
-    if (typeof exports.default !== "undefined") {
       app.all.apply(app, [url, ...getHandlers(exports.default)])
     }
   }
