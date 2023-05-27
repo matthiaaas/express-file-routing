@@ -1,17 +1,23 @@
 {
   "name": "express-file-routing",
-  "version": "3.0.0-beta.0",
-  "description": "Simple system-based file routing for Express",
+  "version": "3.0.0-beta.3",
+  "description": "Simple file-system based routing for Express",
   "author": "Matthias Halfmann",
   "repository": "matthiaaas/express-file-routing",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "scripts": {
     "test": "jest",
-    "build": "rollup -c",
+    "build": "npm run build:rollup",
+    "build:rollup": "rollup -c",
+    "build:tsc": "tsc && tsc --module commonjs --outDir dist/cjs",
     "prepublish": "npm run build",
     "dev": "ts-node-dev --transpile-only --files --quiet ./examples/with-typescript/app.ts"
+  },
+  "exports": {
+    "import": "./dist/esm/index.js",
+    "require": "./dist/cjs/index.js"
   },
   "keywords": [
     "express",

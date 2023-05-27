@@ -58,7 +58,7 @@ export const generateRoutes = async (files: File[]) => {
 
     const url = buildRouteUrl(directory + name)
     const priority = calculatePriority(url)
-    const exports = await import("file://" + path.join(file.path, file.name))
+    const exports = await import(path.join(file.path, file.name))
 
     routes.push({
       url,
