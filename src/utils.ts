@@ -5,7 +5,7 @@ import type { Route } from "./types"
 
 import config from "./config"
 
-export const isCjs = () => typeof module !== "undefined" && module?.exports
+export const isCjs = () => typeof module !== "undefined" && !!module?.exports
 
 /**
  * @param parsedFile

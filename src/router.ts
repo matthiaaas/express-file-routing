@@ -5,7 +5,7 @@ import type { ExpressLike, Options } from "./types"
 import config from "./config"
 
 import { generateRoutes, walkTree } from "./lib"
-import { getHandlers, getMethodKey, isCjs } from "./utils"
+import { getHandlers, getMethodKey } from "./utils"
 
 const CJS_MAIN_FILENAME =
   typeof require !== "undefined" && require.main?.filename
@@ -13,8 +13,6 @@ const CJS_MAIN_FILENAME =
 const PROJECT_DIRECTORY = CJS_MAIN_FILENAME
   ? path.dirname(CJS_MAIN_FILENAME)
   : process.cwd()
-
-const IS_CJS = isCjs()
 
 /**
  * Attach routes to an Express app or router instance
@@ -53,10 +51,18 @@ const createRouter = async <T extends ExpressLike = ExpressLike>(
     }
 
     // wildcard default export route matching
-    if (IS_CJS && typeof exports.default.default !== "undefined") {
-      app.all.apply(app, [url, ...getHandlers(exports.default.default)])
-    } else if (!IS_CJS && typeof exports.default !== "undefined") {
-      app.all.apply(app, [url, ...getHandlers(exports.default)])
+    if (typeof exports.default !== "undefined") {
+      if (
+        typeof exports.default === "function" ||
+        Array.isArray(exports.default)
+      ) {
+        app.all.apply(app, [url, ...getHandlers(exports.default)])
+      } else if (
+        typeof exports.default === "object" &&
+        typeof exports.default.default !== "undefined"
+      ) {
+        app.all.apply(app, [url, ...getHandlers(exports.default.default)])
+      }
     }
   }
 
