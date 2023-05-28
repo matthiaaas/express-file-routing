@@ -9,9 +9,10 @@
   "types": "dist/esm/index.d.ts",
   "scripts": {
     "test": "jest",
-    "build": "npm run build:rollup",
+    "build": "npm run build:rollup && npm run postbuild",
     "build:rollup": "rollup -c",
     "build:tsc": "tsc && tsc --module commonjs --outDir dist/cjs",
+    "postbuild": "sh ./postbuild.sh",
     "prepublish": "npm run build",
     "dev": "ts-node-dev --transpile-only --files --quiet ./examples/with-typescript/app.ts"
   },
