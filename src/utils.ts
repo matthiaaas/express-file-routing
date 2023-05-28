@@ -1,8 +1,11 @@
+import type { Handler } from "express"
 import type { ParsedPath } from "path"
 
 import type { Route } from "./types"
 
 import config from "./config"
+
+export const isCjs = () => typeof module !== "undefined" && module?.exports
 
 /**
  * @param parsedFile
@@ -73,6 +76,15 @@ export const convertParamSyntax = (path: string) => {
 export const convertCatchallSyntax = (url: string) =>
   url.replace(/:\.\.\.\w+/g, "*")
 
+export const buildRoutePath = (parsedFile: ParsedPath) => {
+  const directory = parsedFile.dir === parsedFile.root ? "" : parsedFile.dir
+  const name = parsedFile.name.startsWith("index")
+    ? parsedFile.name.replace("index", "")
+    : `/${parsedFile.name}`
+
+  return directory + name
+}
+
 /**
  * @param path
  *
@@ -98,9 +110,8 @@ export const calculatePriority = (url: string) => {
   return depth + specifity + catchall
 }
 
-export const getHandlers = handler => {
+export const getHandlers = (handler: Handler | Handler[]): Handler[] => {
   if (!Array.isArray(handler)) return [handler]
-
   return handler
 }
 

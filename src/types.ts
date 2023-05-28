@@ -1,11 +1,13 @@
-import type { Handler } from "express"
+import type { Express, Router, Handler } from "express"
+
+export type ExpressLike = Express | Router
 
 export interface Options {
   /**
    * The routes entry directory (optional)
    *
    * ```ts
-   * createRouter(app, {
+   * await createRouter(app, {
    *  directory: path.join(__dirname, "pages")
    * })
    * ```
@@ -20,7 +22,7 @@ export interface Options {
    *
    * const { app } = ws(express())
    *
-   * createRouter(app, {
+   * await createRouter(app, {
    *  // without this the exported ws handler is ignored
    *  additionalMethods: ["ws"]
    * })
@@ -40,16 +42,26 @@ export interface File {
   rel: string
 }
 
+interface MethodExports {
+  get?: Handler
+  post?: Handler
+  put?: Handler
+  patch?: Handler
+  delete?: Handler
+  head?: Handler
+  connect?: Handler
+  options?: Handler
+  trace?: Handler
+
+  [x: string]: Handler
+}
+
+type Exports = MethodExports & {
+  default?: any
+}
+
 export interface Route {
   url: string
   priority: number
-  exports: {
-    default?: Handler
-    get?: Handler
-    post?: Handler
-    put?: Handler
-    patch?: Handler
-    delete?: Handler
-    [x: string]: Handler
-  }
+  exports: Exports
 }

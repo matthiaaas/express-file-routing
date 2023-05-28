@@ -1,36 +1,40 @@
-import type { Express, Router } from "express"
 import path from "path"
 
-import type { Options } from "./types"
+import type { ExpressLike, Options } from "./types"
 
 import config from "./config"
 
 import { generateRoutes, walkTree } from "./lib"
-import { getHandlers, getMethodKey } from "./utils"
+import { getHandlers, getMethodKey, isCjs } from "./utils"
 
-const REQUIRE_MAIN_FILE = path.dirname(require.main?.filename || process.cwd())
+const CJS_MAIN_FILENAME =
+  typeof require !== "undefined" && require.main?.filename
 
-type ExpressLike = Express | Router
+const PROJECT_DIRECTORY = CJS_MAIN_FILENAME
+  ? path.dirname(CJS_MAIN_FILENAME)
+  : process.cwd()
+
+const IS_CJS = isCjs()
 
 /**
  * Attach routes to an Express app or router instance
  *
  * ```ts
- * createRouter(app)
+ * await createRouter(app)
  * ```
  *
  * @param app An express app or router instance
  * @param options An options object (optional)
  */
-const createRouter = <T extends ExpressLike = ExpressLike>(
+const createRouter = async <T extends ExpressLike = ExpressLike>(
   app: T,
   options: Options = {}
-): T => {
+): Promise<T> => {
   const files = walkTree(
-    options.directory || path.join(REQUIRE_MAIN_FILE, "routes")
+    options.directory || path.join(PROJECT_DIRECTORY, "routes")
   )
 
-  const routes = generateRoutes(files)
+  const routes = await generateRoutes(files)
 
   for (const { url, exports } of routes) {
     const exportedMethods = Object.entries(exports)
@@ -49,7 +53,9 @@ const createRouter = <T extends ExpressLike = ExpressLike>(
     }
 
     // wildcard default export route matching
-    if (typeof exports.default !== "undefined") {
+    if (IS_CJS && typeof exports.default.default !== "undefined") {
+      app.all.apply(app, [url, ...getHandlers(exports.default.default)])
+    } else if (!IS_CJS && typeof exports.default !== "undefined") {
       app.all.apply(app, [url, ...getHandlers(exports.default)])
     }
   }

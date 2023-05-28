@@ -1,5 +1,11 @@
 {
   "rules": {
     "no-console": "error"
-  }
+  },
+  "ignorePatterns": [
+    "node_modules/",
+    "dist/",
+    "examples/",
+    "rollup.config.js"
+  ]
 }
