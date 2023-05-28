@@ -53,7 +53,7 @@ interface MethodExports {
   options?: Handler
   trace?: Handler
 
-  [x: string]: Handler
+  [x: string]: Handler | undefined
 }
 
 type Exports = MethodExports & {
