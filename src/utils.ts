@@ -20,6 +20,9 @@ export const isFileIgnored = (parsedFile: ParsedPath) =>
   parsedFile.name.startsWith(config.IGNORE_PREFIX_CHAR) ||
   parsedFile.dir.startsWith(`/${config.IGNORE_PREFIX_CHAR}`)
 
+export const isHandler = (handler: unknown): handler is Handler | Handler[] =>
+  typeof handler === "function" || Array.isArray(handler)
+
 /**
  * @param routes
  *

@@ -5,7 +5,7 @@ import type { ExpressLike, Options } from "./types"
 import config from "./config"
 
 import { generateRoutes, walkTree } from "./lib"
-import { getHandlers, getMethodKey } from "./utils"
+import { getHandlers, getMethodKey, isHandler } from "./utils"
 
 const CJS_MAIN_FILENAME =
   typeof require !== "undefined" && require.main?.filename
@@ -52,14 +52,11 @@ const createRouter = async <T extends ExpressLike = ExpressLike>(
 
     // wildcard default export route matching
     if (typeof exports.default !== "undefined") {
-      if (
-        typeof exports.default === "function" ||
-        Array.isArray(exports.default)
-      ) {
+      if (isHandler(exports.default)) {
         app.all.apply(app, [url, ...getHandlers(exports.default)])
       } else if (
         typeof exports.default === "object" &&
-        typeof exports.default.default !== "undefined"
+        isHandler(exports.default.default)
       ) {
         app.all.apply(app, [url, ...getHandlers(exports.default.default)])
       }
