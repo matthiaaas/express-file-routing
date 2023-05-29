@@ -1,4 +1,4 @@
-import { Router } from "express"
+import { Router, type RouterOptions } from "express"
 
 import type { Options } from "./types"
 
@@ -17,8 +17,12 @@ export { createRouter }
  *
  * @param options An options object (optional)
  */
-export const router = async (options: Options = {}) => {
-  return await createRouter(Router(), options)
+export const router = async (
+  options: Options & { routerOptions?: RouterOptions } = {}
+) => {
+  const routerOptions = options?.routerOptions || {}
+
+  return await createRouter(Router(routerOptions), options)
 }
 
 export { Options }

@@ -77,7 +77,8 @@ await createRouter(app, {
 // or
 app.use("/", await router({
   directory: path.join(__dirname, "routes"),
-  additionalMethods: ["ws", ...]
+  additionalMethods: ["ws", ...],
+  routerOptions: express.RouterOptions
 }))
 ```
 
