@@ -40,7 +40,7 @@ export const prioritizeRoutes = (routes: Route[]) =>
  *
  * @returns A unification of all paths provided
  */
-export const mergePaths = (...paths) =>
+export const mergePaths = (...paths: string[]) =>
   "/" +
   paths
     .map(path => path.replace(/^\/|\/$/g, ""))

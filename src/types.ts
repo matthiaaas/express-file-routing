@@ -42,18 +42,20 @@ export interface File {
   rel: string
 }
 
-interface MethodExports {
-  get?: Handler
-  post?: Handler
-  put?: Handler
-  patch?: Handler
-  delete?: Handler
-  head?: Handler
-  connect?: Handler
-  options?: Handler
-  trace?: Handler
+type MethodExport = Handler | Handler[]
 
-  [x: string]: Handler | undefined
+interface MethodExports {
+  get?: MethodExport
+  post?: MethodExport
+  put?: MethodExport
+  patch?: MethodExport
+  delete?: MethodExport
+  head?: MethodExport
+  connect?: MethodExport
+  options?: MethodExport
+  trace?: MethodExport
+
+  [x: string]: MethodExport | undefined
 }
 
 type Exports = MethodExports & {
