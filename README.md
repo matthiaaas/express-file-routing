@@ -86,6 +86,7 @@ app.use("/", await router({
 
 - `directory`: The path to the routes directory (defaults to `/routes`)
 - `additionalMethods`: Additional methods that match an export from a route like `ws` (e.g. `ws` for express-ws)
+- `routerOptions`: Native Express [Router Options](https://expressjs.com/de/api.html#express.router) objects forwarded as-is to the underlying router
 
 ## Examples
 
