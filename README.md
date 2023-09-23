@@ -194,7 +194,7 @@ export const get = async (req, res) => {
 
 ## Migrating from v2
 
-The latest version v3 fixed stable support for ESM & CJS compatibility. But also **introduced a breaking change** in the library's API. To upgrade, first install the latest version from npm.
+The latest version v3 fixed stable support for ESM & CJS compatibility, but also **introduced a breaking change** in the library's API. To upgrade, first install the latest version from npm.
 
 ### Upgrade version
 
@@ -209,8 +209,8 @@ Registering the file-router in v2 was synchronous. Newer versions require you to
 ```diff
 const app = express()
 
-- app.use(router())
-+ app.use(await router())
+- app.use("/", router())
++ app.use("/", await router())
 
 app.listen(2000)
 ```
