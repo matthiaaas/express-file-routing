@@ -2,7 +2,7 @@
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/matthiaaas/express-file-routing?color=brightgreen&label=latest)
 
-Flexible system-based file routing for Express with `0` dependencies.
+Flexible file-based routing for Express with `0` dependencies.
 
 ## Installation
 
@@ -14,7 +14,7 @@ npm install express-file-routing
 
 ## How to use
 
-Fundamentally, there are two ways of adding this library to your codebase: either as a middleware `app.use("/", await router())`, which will add a separate [mini-router](http://expressjs.com/en/5x/api.html#router) to your app, or by wrapping your whole Express instance with a `await createRouter(app)`, which will bind the routes directly to your app. In most cases, it doesn't matter on what option you decide, even though one or the other might perform better in some scenarios.
+Fundamentally, there are two ways of adding this library to your codebase: **either** as a middleware with `app.use("/", await router())`, which will add a separate [sub-router](http://expressjs.com/en/5x/api.html#router) to your app, **or** by wrapping your whole Express instance with `await createRouter(app)`, which will bind the routes directly to your app instance. In most cases, it doesn't matter on what option you decide, even though one or the other might perform better in some scenarios.
 
 - app.ts (main)
 
@@ -33,7 +33,7 @@ await createRouter(app) // as wrapper function
 app.listen(2000)
 ```
 
-**Note:** It uses your project's `/routes` directory as source by default.
+**Note:** By default, routes are expected to be located in your project's `/routes` directory.
 
 - routes/index.ts
 
@@ -154,7 +154,7 @@ export const ws = async (ws, req) => {
 
 ### Usage with TypeScript
 
-Adding support for route & method handler type definitions is as straightforward as including Express' native `Handler` type from [@types/express](https://www.npmjs.com/package/@types/express).
+The library itself comes with built-in type definitions. Adding support for route & method handler type definitions is as straightforward as including Express' native `Handler` type from [@types/express](https://www.npmjs.com/package/@types/express).
 
 ```ts
 // routes/posts.ts
@@ -170,7 +170,7 @@ It is essential to catch potential errors (500s, 404s etc.) within your route ha
 Defining custom error-handling middleware functions should happen _after_ applying your file-system routes.
 
 ```ts
-app.use("/", await router()) // or await createRouter(app)
+app.use("/", await router()) // or 'await createRouter(app)'
 
 app.use(async (err, req, res, next) => {
   ...
@@ -179,7 +179,7 @@ app.use(async (err, req, res, next) => {
 
 ### Catch-All (unstable)
 
-This library lets you extend dynamic routes to catch-all routes by prefixing it with three dots `...` inside the brackets. This will make that route match itself but also all subsequent routes within that route.
+This library lets you extend dynamic routes to catch-all routes by prefixing them with three dots `...` inside the brackets. This will make that dynamic route match itself but also all subsequent routes within that route.
 
 **Note:** Since this feature got added recently, it might be unstable. Feedback is welcome.
 
@@ -204,7 +204,7 @@ npm install express-file-routing@latest
 
 ### Await the router
 
-Registering the file-router in v2 was synchronous. Newer versions require you to await the router. So the only change in your codebase will be to await the router instead of calling it synchronously:
+Registering the file-router in v2 was synchronous. Newer versions require to await the router. So the only change in your codebase will be to await the router instead of calling it synchronously:
 
 ```diff
 const app = express()
@@ -226,4 +226,4 @@ const app = express()
 app.listen(2000)
 ```
 
-**Note:** If you environment does not support top-level await, you might need to wrap you code in an async function.
+**Note:** If your environment does not support top-level await, you might need to wrap you code in an async function.
