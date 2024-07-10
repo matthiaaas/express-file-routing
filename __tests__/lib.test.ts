@@ -1,7 +1,30 @@
 import path from "path"
 import { walkTree, generateRoutes } from "../src/lib"
+import { RoutingMethod } from "../src/types"
 
 describe("route generation & directory traversal", () => {
+  test("flat_routes", async()=>{
+    const routes = await walkTreeAndGenerateRoutes("flat_routes", 'flat')
+
+    expect(routes).toHaveLength(5)   
+    expect(routes[0].url).toBe("/")
+    expect(routes[1].url).toBe("/profile")
+    expect(routes[2].url).toBe("/profile/messages")
+    expect(routes[3].url).toBe("/profile/messages/:uuid")
+    expect(routes[4].url).toBe("/profile/messages/:uuid/edit")
+
+    expect(routes[0].priority).toBe(0)
+    expect(routes[1].priority).toBe(1)
+    expect(routes[2].priority).toBe(2)
+    expect(routes[3].priority).toBe(4)
+    expect(routes[4].priority).toBe(5)
+
+    expect(routes[0].exports).toHaveProperty("get")     
+    expect(routes[1].exports).toHaveProperty("get")     
+    expect(routes[2].exports).toHaveProperty("get")     
+    expect(routes[3].exports).toHaveProperty("get")     
+    expect(routes[4].exports).toHaveProperty("get")     
+  })
   test("index route", async () => {
     const routes = await walkTreeAndGenerateRoutes("index_route")
 
@@ -52,10 +75,10 @@ describe("route generation & directory traversal", () => {
 
 const getFixture = (name: string) => path.join(__dirname, "fixtures", name)
 
-const walkTreeAndGenerateRoutes = async (name: string) => {
+const walkTreeAndGenerateRoutes = async (name: string, method:RoutingMethod = 'nested') => {
   const fixture = getFixture(name)
 
   const files = walkTree(path.join(fixture, "routes"))
 
-  return await generateRoutes(files)
+  return await generateRoutes(files, method)
 }
