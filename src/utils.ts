@@ -79,21 +79,6 @@ export const convertParamSyntax = (path: string) => {
 export const convertCatchallSyntax = (url: string) =>
   url.replace(/:\.\.\.\w+/g, "*")
 
-/**
- * ```ts
- * parseFlatFileRoute("profile.messages.index") -> "/profile/messages"
- * ```
- *
- * @param filePath
- *
- * @returns A new path with all `.` replaced by `/` and `index` removed
- */
-const parseFlatFileRoute = (filePath:string) => {
-  let output = filePath.replace(/index/g, '')
-  output = output.replace(/\./g, '/')
-  return output
-}
-
 export const buildNestedRoutePath = (parsedFile: ParsedPath) => {
   const directory = parsedFile.dir === parsedFile.root ? "" : parsedFile.dir
   const name = parsedFile.name.startsWith("index")
@@ -104,7 +89,10 @@ export const buildNestedRoutePath = (parsedFile: ParsedPath) => {
 }
 
 export const buildFlatRoutePath = (parsedFile: ParsedPath) => {
-  return parseFlatFileRoute(parsedFile.name)
+  let name = parsedFile.name;
+  name = name.replace(/index/g, '')
+  name = name.replace(/\./g, '/')
+  return name
 }
 
 /**

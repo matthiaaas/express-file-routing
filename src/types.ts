@@ -38,7 +38,7 @@ export interface Options {
    * The path method to use for the routes
    *
    * - `nested` (default): `/users/[id]/posts/[slug].ts`
-   * - `flat`: `/users.:id.posts.:slug`
+   * - `flat`: `/users.:id.posts.:slug.ts`
    *
    * ```ts
    * await createRouter(app, {
