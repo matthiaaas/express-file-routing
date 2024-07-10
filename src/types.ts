@@ -33,7 +33,20 @@ export interface Options {
    * }
    * ```
    */
-  additionalMethods?: string[]
+  additionalMethods?: string[],
+  /**
+   * The path method to use for the routes
+   *
+   * - `nested` (default): `/users/[id]/posts/[slug].ts`
+   * - `flat`: `/users.:id.posts.:slug`
+   *
+   * ```ts
+   * await createRouter(app, {
+   *  routingMethod: "flat"
+   * })
+   * ```
+   */
+  routingMethod?: RoutingMethod
 }
 
 export interface File {
@@ -67,3 +80,5 @@ export interface Route {
   priority: number
   exports: Exports
 }
+
+export type RoutingMethod = "nested" | "flat"

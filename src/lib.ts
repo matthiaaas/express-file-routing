@@ -1,10 +1,11 @@
 import { readdirSync, statSync } from "fs"
 import path from "path"
 
-import type { File, Route } from "./types"
+import type { File, Route, RoutingMethod } from "./types"
 
 import {
-  buildRoutePath,
+  buildFlatRoutePath,
+  buildNestedRoutePath,
   buildRouteUrl,
   calculatePriority,
   isCjs,
@@ -53,17 +54,18 @@ export const walkTree = (directory: string, tree: string[] = []) => {
  *
  * @returns An array of routes
  */
-export const generateRoutes = async (files: File[]) => {
+export const generateRoutes = async (files: File[], method:RoutingMethod = 'nested') => {
   const routes: Route[] = []
 
   for (const file of files) {
     const parsedFile = path.parse(file.rel)
 
     if (isFileIgnored(parsedFile)) continue
-
-    const routePath = buildRoutePath(parsedFile)
+    
+    const routePath = method === 'nested' ? buildNestedRoutePath(parsedFile) : buildFlatRoutePath(parsedFile)
     const url = buildRouteUrl(routePath)
     const priority = calculatePriority(url)
+
     const exports = await import(
       MODULE_IMPORT_PREFIX + path.join(file.path, file.name)
     )

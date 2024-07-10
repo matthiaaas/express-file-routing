@@ -32,7 +32,7 @@ const createRouter = async <T extends ExpressLike = ExpressLike>(
     options.directory || path.join(PROJECT_DIRECTORY, "routes")
   )
 
-  const routes = await generateRoutes(files)
+  const routes = await generateRoutes(files, options?.routingMethod)
 
   for (const { url, exports } of routes) {
     const exportedMethods = Object.entries(exports)
