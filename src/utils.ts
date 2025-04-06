@@ -79,13 +79,22 @@ export const convertParamSyntax = (path: string) => {
 export const convertCatchallSyntax = (url: string) =>
   url.replace(/:\.\.\.\w+/g, "*")
 
-export const buildRoutePath = (parsedFile: ParsedPath) => {
-  const directory = parsedFile.dir === parsedFile.root ? "" : parsedFile.dir
-  const name = parsedFile.name.startsWith("index")
-    ? parsedFile.name.replace("index", "")
-    : `/${parsedFile.name}`
-
-  return directory + name
+export const buildRoutePath = (parsedFile: ParsedPath): string => {
+  // Normalize the directory path
+  const normalizedDir = parsedFile.dir === parsedFile.root ? '/' : parsedFile.dir.startsWith('/') ? parsedFile.dir : `/${parsedFile.dir}`;
+  
+  // Handle index files specially
+  if (parsedFile.name === 'index') {
+    return normalizedDir === '/' ? '/' : normalizedDir;
+  }
+  
+  // Handle index.something files (like index.mod)
+  if (parsedFile.name.startsWith('index.')) {
+    return normalizedDir === '/' ? '/' : normalizedDir;
+  }
+  
+  // For regular files
+  return `${normalizedDir === '/' ? '' : normalizedDir}/${parsedFile.name}`;
 }
 
 /**
