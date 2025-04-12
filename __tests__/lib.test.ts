@@ -41,6 +41,15 @@ describe("route generation & directory traversal", () => {
     expect(routes[5].url).toBe("/posts/:slug/comments/:id/reactions")
   })
 
+  test("conflicting index routes", async () => {
+    const routes = await walkTreeAndGenerateRoutes("conflicting_index_routes")
+
+    expect(routes).toHaveLength(3)
+    expect(routes[0].url).toBe("/indexed")
+    expect(routes[1].url).toBe("/search")
+    expect(routes[2].url).toBe("/search/indexed")
+  })
+
   test("catchall route", async () => {
     const routes = await walkTreeAndGenerateRoutes("catchall_route")
 
