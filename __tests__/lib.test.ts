@@ -55,7 +55,7 @@ describe("route generation & directory traversal", () => {
 
     expect(routes).toHaveLength(2)
     expect(routes[0].url).toBe("/dashboard")
-    expect(routes[1].url).toBe("/*")
+    expect(routes[1].url).toBe("/{*catchall}")
   })
 })
 

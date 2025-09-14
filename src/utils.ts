@@ -69,15 +69,16 @@ export const convertParamSyntax = (path: string) => {
 
 /**
  * ```ts
- * convertCatchallSyntax("/posts/:...catchall") -> "/posts/*"
+ * convertCatchallSyntax("/posts/:...catchall") -> "/posts/{*catchall}"
+ * convertCatchallSyntax("/posts/:...") -> "/posts/{*__catchall}"
  * ```
  *
  * @param url
  *
- * @returns A new url with all `:...` replaced by `*`
+ * @returns A new url with all `:...` replaced by `{*word}` (fallback to __catchall if none)
  */
 export const convertCatchallSyntax = (url: string) =>
-  url.replace(/:\.\.\.\w+/g, "*")
+  url.replace(/:\.\.\.(\w*)/g, (_, word) => `{*${word || "__catchall"}}`)
 
 export const buildRoutePath = (parsedFile: ParsedPath): string => {
   // Normalize the directory path
