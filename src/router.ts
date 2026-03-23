@@ -34,7 +34,14 @@ const createRouter = async <T extends ExpressLike = ExpressLike>(
 
   const routes = await generateRoutes(files)
 
+  // clean up basePath so it only has a leading slash and no trailing slash (if provided)
+  const basePath = options.basePath
+    ? `/${options.basePath.replace(/^\/|\/$/g, "")}`
+    : ""
+
   for (const { url, exports } of routes) {
+    const routeUrl = `${basePath}${url}`
+
     const exportedMethods = Object.entries(exports)
 
     for (const [method, handler] of exportedMethods) {
@@ -47,18 +54,18 @@ const createRouter = async <T extends ExpressLike = ExpressLike>(
       )
         continue
 
-      app[methodKey](url, ...handlers)
+      app[methodKey](routeUrl, ...handlers)
     }
 
     // wildcard default export route matching
     if (typeof exports.default !== "undefined") {
       if (isHandler(exports.default)) {
-        app.all.apply(app, [url, ...getHandlers(exports.default)])
+        app.all.apply(app, [routeUrl, ...getHandlers(exports.default)])
       } else if (
         typeof exports.default === "object" &&
         isHandler(exports.default.default)
       ) {
-        app.all.apply(app, [url, ...getHandlers(exports.default.default)])
+        app.all.apply(app, [routeUrl, ...getHandlers(exports.default.default)])
       }
     }
   }

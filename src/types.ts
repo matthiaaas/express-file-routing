@@ -34,6 +34,16 @@ export interface Options {
    * ```
    */
   additionalMethods?: string[]
+  /**
+   * Base path of generated routes (optional)
+   *
+   * ```ts
+   * await createRouter(app, {
+   *  basePath: "/api"
+   * })
+   * ```
+   */
+  basePath?: string
 }
 
 export interface File {
