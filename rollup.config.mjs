@@ -1,6 +1,6 @@
 import typescript from "rollup-plugin-typescript2"
 
-import pkg from "./package.json"
+import pkg from "./package.json" with { type: "json" }
 
 /**
  * @type {import("rollup").RollupOptions}

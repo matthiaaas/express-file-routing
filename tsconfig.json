@@ -3,6 +3,7 @@
     "module": "esnext",
     "esModuleInterop": true,
     "target": "es6",
+    "lib": ["es2015"],
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist/esm",
@@ -18,16 +19,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "example",
-    "rollup.config.js"
-  ],
-  "lib": [
-    "es2015"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "example", "rollup.config.mjs"]
 }
